@@ -144,6 +144,14 @@ ENV/
 env.bak/
 venv.bak/
 
+# Backups generados por sed -i.bak, perl -i, vim, etc.
+*.bak
+*~
+
+# Archivos temporales que deja el filesystem FUSE cuando un archivo abierto
+# es renombrado (sucede con sed/perl in-place en mounts montados)
+.fuse_hidden*
+
 # Spyder project settings
 .spyderproject
 .spyproject

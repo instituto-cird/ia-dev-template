@@ -86,7 +86,7 @@ git add app/main.py tests/test_sanity.py
 git commit -m "feat(m1): add /spec endpoint with Pydantic schema"
 
 # 5. Verifica el harness ANTES de pushear
-uv run ruff check . && uv run mypy app/ --ignore-missing-imports && uv run pytest -q
+uv run --frozen ruff check . && uv run --frozen mypy app/ --ignore-missing-imports && uv run --frozen pytest -q
 
 # 6. Pushea la rama
 git push origin feature/m1-harness

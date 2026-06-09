@@ -173,10 +173,10 @@ async def test_algo_async() -> None:
 
 **Cómo correr tests localmente:**
 ```bash
-uv run pytest -q                           # Todos los tests
-uv run pytest tests/test_sanity.py -v     # Un archivo específico
-uv run pytest -k "test_health" -v         # Tests que contengan "test_health"
-uv run pytest --cov=app --cov-report=term-missing  # Con cobertura
+uv run --frozen pytest -q                           # Todos los tests
+uv run --frozen pytest tests/test_sanity.py -v     # Un archivo específico
+uv run --frozen pytest -k "test_health" -v         # Tests que contengan "test_health"
+uv run --frozen pytest --cov=app --cov-report=term-missing  # Con cobertura
 ```
 
 ---

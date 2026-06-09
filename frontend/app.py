@@ -39,7 +39,7 @@ with st.sidebar:
         st.success(f"Backend Online (v{health['version']})")
     else:
         st.error("Backend Offline 🔴")
-        st.warning("Asegúrate de ejecutar: `uv run uvicorn app.main:app --reload`")
+        st.warning("Asegúrate de ejecutar: `uv run --frozen uvicorn app.main:app --reload`")
 
 # Tabs para organizar las tareas del curso
 tab1, tab2, tab3 = st.tabs(["🏠 Home", "🛠️ M1: SDLC Tools", "🕵️ M4: Agentes"])

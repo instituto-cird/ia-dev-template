@@ -86,7 +86,7 @@ async def list_merchants(
 
 ## Documentación interactiva (gratis)
 
-Cuando corres `uv run uvicorn app.main:app --reload`, FastAPI genera automáticamente:
+Cuando corres `uv run --frozen uvicorn app.main:app --reload`, FastAPI genera automáticamente:
 
 - **Swagger UI**: `http://localhost:8000/docs` — probar endpoints desde el browser
 - **ReDoc**: `http://localhost:8000/redoc` — documentación más limpia para clientes

@@ -136,10 +136,10 @@ def test_type_hints() -> None:
     assert duplicar(5) == 10
 
 # Cómo correrlos:
-# uv run pytest tests/test_nivelacion.py -v
+# uv run --frozen pytest tests/test_nivelacion.py -v
 ```
 
-Si los tres tests pasan y `uv run mypy tests/test_nivelacion.py --ignore-missing-imports`
+Si los tres tests pasan y `uv run --frozen mypy tests/test_nivelacion.py --ignore-missing-imports`
 no reporta errores: estás listo para M1.
 
 ---
@@ -177,10 +177,10 @@ jobs:
       - uses: actions/setup-python@v5   # Instala Python 3.12
       - uses: astral-sh/setup-uv@v7     # Instala uv
       - run: uv sync --frozen           # Instala dependencias exactas del uv.lock
-      - run: uv run ruff check .        # Linter — falla si hay errores de estilo
-      - run: uv run mypy app/           # Type checker — falla si hay errores de tipo
-      - run: uv run bandit -r app/      # Security — falla si hay vulnerabilidades
-      - run: uv run pytest --cov=app    # Tests — falla si tests fallan o coverage < 60%
+      - run: uv run --frozen ruff check .        # Linter — falla si hay errores de estilo
+      - run: uv run --frozen mypy app/           # Type checker — falla si hay errores de tipo
+      - run: uv run --frozen bandit -r app/      # Security — falla si hay vulnerabilidades
+      - run: uv run --frozen pytest --cov=app    # Tests — falla si tests fallan o coverage < 60%
 ```
 
 **La diferencia "local vs CI":**
@@ -200,10 +200,10 @@ Las causas habituales son:
 ```bash
 # Simula el CI localmente (exactamente lo que corre GitHub Actions):
 uv sync --frozen --all-groups
-uv run ruff check .
-uv run mypy app/ --ignore-missing-imports
-uv run bandit -r app/ -ll -q
-uv run pytest -q --cov=app --cov-fail-under=60
+uv run --frozen ruff check .
+uv run --frozen mypy app/ --ignore-missing-imports
+uv run --frozen bandit -r app/ -ll -q
+uv run --frozen pytest -q --cov=app --cov-fail-under=60
 
 # Si los 5 comandos pasan en verde: tu ambiente local está en sync con el CI.
 ```
@@ -238,10 +238,10 @@ uv --version
 git clone https://github.com/ia-aplicada-al-desarrollo-de-software/[tu-repo-asignado].git
 cd [tu-repo]
 uv sync --all-groups    # uv descarga Python 3.12 automáticamente si no está
-uv run python --version # Debe retornar: Python 3.12.x
+uv run --frozen python --version # Debe retornar: Python 3.12.x
 
 # 5. Verificación completa
-uv run pytest tests/test_sanity.py -v
+uv run --frozen pytest tests/test_sanity.py -v
 # test_health_status_ok PASSED
 # (los demás pueden fallar si el mock LLM no está corriendo — es OK)
 ```
@@ -346,7 +346,7 @@ def test_echo_valida_repeat_maximo() -> None:
     assert r.status_code == 422  # Pydantic lo rechaza automáticamente
 ```
 
-Si `uv run pytest tests/test_sanity.py -v` pasa con estos dos nuevos tests: listo para M1.
+Si `uv run --frozen pytest tests/test_sanity.py -v` pasa con estos dos nuevos tests: listo para M1.
 
 ---
 

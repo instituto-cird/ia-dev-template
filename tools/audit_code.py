@@ -3,8 +3,8 @@
 tools/audit_code.py — Auditor de AI Smells para Lab 1.
 
 USO
-    uv run python tools/audit_code.py
-    uv run python tools/audit_code.py --path agent/ --strict
+    uv run --frozen python tools/audit_code.py
+    uv run --frozen python tools/audit_code.py --path agent/ --strict
 
 QUÉ HACE
     Escanea los archivos .py del proyecto buscando los AI Smells documentados
@@ -198,10 +198,10 @@ def print_report(findings: list[dict[str, object]], strict: bool = False) -> int
         print("✅ Auditoría completada — 0 AI Smells detectados.")
         print()
         print("Recordá correr el harness completo antes del PR:")
-        print("  uv run ruff check .")
-        print("  uv run mypy app/ --ignore-missing-imports")
-        print("  uv run bandit -r app/ -ll -q")
-        print("  uv run pytest -q --cov=app --cov-fail-under=60")
+        print("  uv run --frozen ruff check .")
+        print("  uv run --frozen mypy app/ --ignore-missing-imports")
+        print("  uv run --frozen bandit -r app/ -ll -q")
+        print("  uv run --frozen pytest -q --cov=app --cov-fail-under=60")
         return 0
 
     # Agrupa por archivo

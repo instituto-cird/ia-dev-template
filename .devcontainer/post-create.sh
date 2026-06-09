@@ -25,13 +25,13 @@ fi
 # 3. Hooks de pre-commit si el proyecto los define (no rompe si no hay).
 if [ -f .pre-commit-config.yaml ]; then
   echo "▸ Instalando hooks de pre-commit..."
-  uv run pre-commit install || true
+  uv run --frozen pre-commit install || true
 fi
 
 # 4. Smoke test rápido: verificar que el stack carga.
 echo ""
 echo "▸ Smoke test del entorno..."
-uv run python -c "
+uv run --frozen python -c "
 import sys
 print(f'  Python: {sys.version.split()[0]}')
 import fastapi, pydantic, pytest
@@ -43,7 +43,7 @@ print(f'  pytest: {pytest.__version__}')
 # 5. Verificar que pytest corre (smoke test del repo).
 echo ""
 echo "▸ Corriendo pytest (smoke test del repo)..."
-if uv run pytest -q --tb=no 2>&1 | tail -5; then
+if uv run --frozen pytest -q --tb=no 2>&1 | tail -5; then
   echo "  ✓ Tests del template pasan."
 else
   echo "  ⚠ Algún test falló o no hay tests todavía. Revisar después del Lab 0."
@@ -54,9 +54,9 @@ echo "════════════════════════�
 echo "  ✓ Entorno listo."
 echo ""
 echo "  Próximos pasos sugeridos:"
-echo "    1. Levantar el Mock LLM:   uv run python -m app.mock_llm"
+echo "    1. Levantar el Mock LLM:   uv run --frozen python -m app.mock_llm"
 echo "       (en otra terminal:)"
-echo "    2. Levantar el backend:    uv run uvicorn app.main:app --reload"
+echo "    2. Levantar el backend:    uv run --frozen uvicorn app.main:app --reload"
 echo "    3. Probar la API:          http://localhost:8000/docs"
 echo ""
 echo "  Documentación: README.md del repositorio."

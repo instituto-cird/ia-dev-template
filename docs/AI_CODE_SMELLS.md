@@ -3,7 +3,7 @@
 En la era de los modelos frontera de 2026, el código se genera rápido, pero a menudo con "olores" específicos de IA. Antes de aprobar un PR (tuyo o de un agente), verifica esto.
 
 > **Auditoría automática**: este checklist está implementado parcialmente en `tools/audit_code.py`.
-> Corré `uv run python tools/audit_code.py` para que el script te marque los smells detectables por patrones. Los chequeos que requieren juicio humano (Parrot Comments, Complejidad Ciclomática) quedan a tu cargo.
+> Corré `uv run --frozen python tools/audit_code.py` para que el script te marque los smells detectables por patrones. Los chequeos que requieren juicio humano (Parrot Comments, Complejidad Ciclomática) quedan a tu cargo.
 
 ## 1. El "Happy Path" Obsesivo
 **Síntoma:** El código asume que las APIs nunca fallan, los archivos siempre existen y el usuario nunca se equivoca.
@@ -60,13 +60,13 @@ Corre estos comandos antes de cada PR. Si alguno falla, no mergees.
 
 ```bash
 # 1. Estilo y errores comunes (Smells 3 y 4)
-uv run ruff check .
+uv run --frozen ruff check .
 
 # 2. Errores de tipos — detecta Ghost Dependencies antes de runtime (Smell 2)
-uv run mypy app/ --ignore-missing-imports
+uv run --frozen mypy app/ --ignore-missing-imports
 
 # 3. Vulnerabilidades de seguridad conocidas (Smell 5)
-uv run bandit -r app/ -ll -q
+uv run --frozen bandit -r app/ -ll -q
 
 # 4. Credenciales hardcodeadas (Smell 5) — grep manual
 grep -rn "api_key\s*=\s*['\"]" app/ agent/

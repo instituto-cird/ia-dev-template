@@ -1,6 +1,6 @@
 # 🎭 Guía del Mock LLM
 
-> **Cuándo leer esto**: antes del Lab 4 (Track B). Para Labs 0-3 alcanza con saber que el Mock arranca con `uv run uvicorn app.mock_llm:mock_app --port 8001`.
+> **Cuándo leer esto**: antes del Lab 4 (Track B). Para Labs 0-3 alcanza con saber que el Mock arranca con `uv run --frozen uvicorn app.mock_llm:mock_app --port 8001`.
 
 > **Para qué existe el Mock LLM**: para que los estudiantes de la cohorte puedan completar todos los Labs sin necesidad de pagar API keys de OpenAI/Anthropic. Es la opción por defecto (`MOCK_MODE=true` en `.env`).
 
@@ -13,7 +13,7 @@ El template provee **dos implementaciones distintas** del Mock LLM. Las dos est�
 | Aspecto | Mock HTTP (`app/mock_llm.py`) | Mock In-Process (`tests/mocks/mock_llm.py`) |
 |---------|-------------------------------|--------------------------------------------|
 | **Cómo se invoca** | Cliente OpenAI con `base_url=http://localhost:8001/v1` | Reemplaza `OpenAI()` con `MockLLMClient()` |
-| **Requiere proceso aparte** | Sí (`uv run uvicorn app.mock_llm:mock_app --port 8001`) | No — todo in-process |
+| **Requiere proceso aparte** | Sí (`uv run --frozen uvicorn app.mock_llm:mock_app --port 8001`) | No — todo in-process |
 | **Respuestas** | Heurísticas (palabras clave del prompt) | Predefinidas por vos (lista FIFO) |
 | **Determinístico** | Razonablemente | 100% — mismos inputs, mismos outputs |
 | **Para qué sirve** | Probar el flujo end-to-end con el agente real | Tests del Golden Set, validar lógica del agente |
@@ -33,7 +33,7 @@ El template provee **dos implementaciones distintas** del Mock LLM. Las dos est�
 
 ```bash
 # En una terminal aparte (mantenelo corriendo en background)
-uv run uvicorn app.mock_llm:mock_app --port 8001
+uv run --frozen uvicorn app.mock_llm:mock_app --port 8001
 # → http://localhost:8001
 ```
 

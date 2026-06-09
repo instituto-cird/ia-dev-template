@@ -59,10 +59,10 @@ git log --oneline -5
 uv sync
 
 # 3. Correr el harness completo
-uv run ruff check .
-uv run mypy app/ --ignore-missing-imports
-uv run bandit -r app/ -ll -q
-uv run pytest -q --cov=app --cov-report=term-missing
+uv run --frozen ruff check .
+uv run --frozen mypy app/ --ignore-missing-imports
+uv run --frozen bandit -r app/ -ll -q
+uv run --frozen pytest -q --cov=app --cov-report=term-missing
 
 # 4. Mostrar cobertura: debe ser >= 60%
 ```

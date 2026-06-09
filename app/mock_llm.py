@@ -22,7 +22,7 @@ PARÁMETROS ACEPTADOS
     o los usa según el modo. No falla con 422 si el cliente envía campos extra.
 
 CÓMO LEVANTARLO
-    uv run uvicorn app.mock_llm:mock_app --port 8001
+    uv run --frozen uvicorn app.mock_llm:mock_app --port 8001
 
 REFERENCIA
     OpenAI Chat Completions API:
@@ -287,7 +287,7 @@ async def root() -> dict[str, Any]:
     }
 
 
-# Permite ejecutar como módulo: `uv run python -m app.mock_llm`
+# Permite ejecutar como módulo: `uv run --frozen python -m app.mock_llm`
 if __name__ == "__main__":
     import uvicorn
     # Mock LLM debe escuchar todas las interfaces para Docker Compose

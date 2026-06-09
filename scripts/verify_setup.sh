@@ -82,37 +82,37 @@ echo ""
 echo "${BLUE}3. Dependencias del proyecto${RESET}"
 check "uv.lock presente"                                                     "test -f uv.lock"                                                "uv lock"
 check ".venv creado (uv sync corrió al menos una vez)"                       "test -d .venv"                                                  "uv sync --all-groups"
-check "FastAPI importable"                                                   "uv run python -c 'import fastapi'"                              "uv sync --all-groups"
-check "Pydantic v2 importable"                                               "uv run python -c 'import pydantic; assert pydantic.VERSION.startswith(\"2.\")'" "uv sync --all-groups"
-check "pytest importable"                                                    "uv run python -c 'import pytest'"                               "uv sync --all-groups"
+check "FastAPI importable"                                                   "uv run --frozen python -c 'import fastapi'"                              "uv sync --all-groups"
+check "Pydantic v2 importable"                                               "uv run --frozen python -c 'import pydantic; assert pydantic.VERSION.startswith(\"2.\")'" "uv sync --all-groups"
+check "pytest importable"                                                    "uv run --frozen python -c 'import pytest'"                               "uv sync --all-groups"
 
 # ─── 4. Backend arranca ──────────────────────────────────────────────────────
 echo ""
 echo "${BLUE}4. Backend (FastAPI)${RESET}"
-check "app.main importa sin errores"                                         "uv run python -c 'from app.main import app'"                    "Revisar app/main.py"
-check "Health endpoint funciona (in-process)"                                "uv run python -c 'from fastapi.testclient import TestClient; from app.main import app; r = TestClient(app).get(\"/health\"); assert r.status_code == 200'" "Revisar app/main.py"
+check "app.main importa sin errores"                                         "uv run --frozen python -c 'from app.main import app'"                    "Revisar app/main.py"
+check "Health endpoint funciona (in-process)"                                "uv run --frozen python -c 'from fastapi.testclient import TestClient; from app.main import app; r = TestClient(app).get(\"/health\"); assert r.status_code == 200'" "Revisar app/main.py"
 
 # ─── 5. Mock LLM ──────────────────────────────────────────────────────────────
 echo ""
 echo "${BLUE}5. Mock LLM${RESET}"
-check "app.mock_llm importa sin errores"                                     "uv run python -c 'from app.mock_llm import mock_app'"           "Revisar app/mock_llm.py"
-check "Mock LLM responde (in-process)"                                       "uv run python -c 'from fastapi.testclient import TestClient; from app.mock_llm import mock_app; r = TestClient(mock_app).post(\"/v1/chat/completions\", json={\"model\":\"x\",\"messages\":[{\"role\":\"user\",\"content\":\"hola\"}]}); assert r.status_code == 200'" "Ver docs/MOCK_LLM_GUIDE.md"
+check "app.mock_llm importa sin errores"                                     "uv run --frozen python -c 'from app.mock_llm import mock_app'"           "Revisar app/mock_llm.py"
+check "Mock LLM responde (in-process)"                                       "uv run --frozen python -c 'from fastapi.testclient import TestClient; from app.mock_llm import mock_app; r = TestClient(mock_app).post(\"/v1/chat/completions\", json={\"model\":\"x\",\"messages\":[{\"role\":\"user\",\"content\":\"hola\"}]}); assert r.status_code == 200'" "Ver docs/MOCK_LLM_GUIDE.md"
 
 # ─── 6. Agente con MockLLMClient ─────────────────────────────────────────────
 echo ""
 echo "${BLUE}6. Agente (Track B)${RESET}"
-check "agent.core importa sin errores"                                       "uv run python -c 'from agent.core import run_agent'"            "Revisar agent/core.py"
-check "MockLLMClient importable"                                             "uv run python -c 'from tests.mocks.mock_llm import MockLLMClient'" "Falta tests/mocks/mock_llm.py — git pull"
-check "Calculator tool funciona"                                             "uv run python -c 'from agent.tools.calculator import calculate; assert calculate(\"2+2\") == \"4\"'" "Revisar agent/tools/calculator.py"
-check "Merchant lookup tool funciona"                                        "uv run python -c 'from agent.tools.merchant_lookup import lookup_merchant; r = lookup_merchant(\"MCHT-00001\"); assert \"MCHT-00001\" in r'" "Revisar data/merchants_sample.json"
+check "agent.core importa sin errores"                                       "uv run --frozen python -c 'from agent.core import run_agent'"            "Revisar agent/core.py"
+check "MockLLMClient importable"                                             "uv run --frozen python -c 'from tests.mocks.mock_llm import MockLLMClient'" "Falta tests/mocks/mock_llm.py — git pull"
+check "Calculator tool funciona"                                             "uv run --frozen python -c 'from agent.tools.calculator import calculate; assert calculate(\"2+2\") == \"4\"'" "Revisar agent/tools/calculator.py"
+check "Merchant lookup tool funciona"                                        "uv run --frozen python -c 'from agent.tools.merchant_lookup import lookup_merchant; r = lookup_merchant(\"MCHT-00001\"); assert \"MCHT-00001\" in r'" "Revisar data/merchants_sample.json"
 
 # ─── 7. Harness de calidad ───────────────────────────────────────────────────
 echo ""
 echo "${BLUE}7. Harness (ruff + mypy + bandit + pytest)${RESET}"
-check "ruff disponible"                                                      "uv run ruff --version"                                          "uv sync --all-groups"
-check "mypy disponible"                                                      "uv run mypy --version"                                          "uv sync --all-groups"
-check "bandit disponible"                                                    "uv run bandit --version"                                        "uv sync --all-groups"
-check "pytest pasa todos los tests"                                          "uv run pytest -q --tb=no"                                       "Mirá la salida real con: uv run pytest -v"
+check "ruff disponible"                                                      "uv run --frozen ruff --version"                                          "uv sync --all-groups"
+check "mypy disponible"                                                      "uv run --frozen mypy --version"                                          "uv sync --all-groups"
+check "bandit disponible"                                                    "uv run --frozen bandit --version"                                        "uv sync --all-groups"
+check "pytest pasa todos los tests"                                          "uv run --frozen pytest -q --tb=no"                                       "Mirá la salida real con: uv run --frozen pytest -v"
 
 # ─── 8. Git ───────────────────────────────────────────────────────────────────
 echo ""
@@ -132,7 +132,6 @@ if [[ $FAILED -eq 0 ]]; then
   echo ""
   echo "${GREEN}✅ Entorno listo para los Labs. Podés arrancar.${RESET}"
   echo ""
-  echo "Próximo paso sugerido: Lab 0 (Onboarding) — ver el handbook"
   exit 0
 else
   echo ""

@@ -44,9 +44,9 @@ obligatorio en el programa — es alternativa.
 ## Validación rápida después del primer arranque
 
 ```bash
-uv run pytest                                 # los tests del template deben pasar
-uv run python -m app.mock_llm &               # Mock LLM en background
-uv run uvicorn app.main:app --reload          # backend en otra terminal
+uv run --frozen pytest                                 # los tests del template deben pasar
+uv run --frozen python -m app.mock_llm &               # Mock LLM en background
+uv run --frozen uvicorn app.main:app --reload          # backend en otra terminal
 curl http://localhost:8000/                   # debe responder OK
 ```
 

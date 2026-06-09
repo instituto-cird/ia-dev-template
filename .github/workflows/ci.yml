@@ -28,13 +28,13 @@ jobs:
         run: uv sync --frozen --all-groups
 
       - name: Lint (ruff)
-        run: uv run ruff check .
+        run: uv run --frozen ruff check .
 
       - name: Type check (mypy)
-        run: uv run mypy app/ --ignore-missing-imports
+        run: uv run --frozen mypy app/ --ignore-missing-imports
 
       - name: Security scan (bandit)
-        run: uv run bandit -r app/ -ll -q
+        run: uv run --frozen bandit -r app/ -ll -q
 
       - name: Tests + coverage (pytest)
-        run: uv run pytest -q --cov=app --cov-report=term-missing --cov-fail-under=60
+        run: uv run --frozen pytest -q --cov=app --cov-report=term-missing --cov-fail-under=60

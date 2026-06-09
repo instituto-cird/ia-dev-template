@@ -120,15 +120,15 @@ ia-dev-template/
 
 ```bash
 # Terminal 1: Backend API
-uv run uvicorn app.main:app --reload --port 8000
+uv run --frozen uvicorn app.main:app --reload --port 8000
 # → Documentación interactiva en http://localhost:8000/docs
 
 # Terminal 2: Mock LLM (simula OpenAI)
-uv run uvicorn app.mock_llm:mock_app --port 8001
+uv run --frozen uvicorn app.mock_llm:mock_app --port 8001
 # → Acepta requests en http://localhost:8001/v1/chat/completions
 
 # Terminal 3: Frontend Streamlit (opcional)
-uv run streamlit run frontend/app.py
+uv run --frozen streamlit run frontend/app.py
 # → UI en http://localhost:8501
 ```
 
@@ -172,19 +172,19 @@ Estos son los mismos comandos que corre el CI. Córrelos antes de cada PR:
 
 ```bash
 # Estilo de código
-uv run ruff check .
+uv run --frozen ruff check .
 
 # Tipos estáticos
-uv run mypy app/ --ignore-missing-imports
+uv run --frozen mypy app/ --ignore-missing-imports
 
 # Vulnerabilidades de seguridad
-uv run bandit -r app/ -ll -q
+uv run --frozen bandit -r app/ -ll -q
 
 # Tests + cobertura (debe ser >= 60%)
-uv run pytest -q --cov=app --cov-report=term-missing
+uv run --frozen pytest -q --cov=app --cov-report=term-missing
 
 # Todo de una vez (equivalente al CI):
-uv run ruff check . && uv run mypy app/ --ignore-missing-imports && uv run bandit -r app/ -ll -q && uv run pytest -q --cov=app --cov-fail-under=60
+uv run --frozen ruff check . && uv run --frozen mypy app/ --ignore-missing-imports && uv run --frozen bandit -r app/ -ll -q && uv run --frozen pytest -q --cov=app --cov-fail-under=60
 ```
 
 > Si algún comando falla, el CI fallará también. No abras un PR con CI rojo.

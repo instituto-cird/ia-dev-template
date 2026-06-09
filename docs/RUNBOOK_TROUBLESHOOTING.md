@@ -60,6 +60,20 @@ uv python pin 3.12
 uv sync --all-groups
 ```
 
+### ⚠️ Importante: por qué siempre usamos `uv run --frozen`
+
+Todos los comandos del template usan el flag `--frozen`. **No es decorativo, evita un bug real.**
+
+Cuando ejecutás `uv run pytest` (sin `--frozen`), uv compara automáticamente tu `.venv/` con tu `uv.lock` antes de correr. Si detecta cualquier diferencia, **reinstala paquetes**. Esto suena bien — pero algunas instalaciones quedan parciales (les falta el archivo `RECORD`, les falta submódulos), y entonces el siguiente `import` falla con `ModuleNotFoundError`. Probás otro `uv run`, vuelve a reinstalar, vuelve a romperse. Es un círculo.
+
+Con `uv run --frozen pytest`, le decís a uv: *"el venv ya está sincronizado, no toques nada, solo ejecutá el comando".* Ningún reinstall, ningún wheel parcial.
+
+**Cuándo NO usar `--frozen`:**
+- Después de modificar `pyproject.toml` (agregar/cambiar/quitar una dependencia). Ahí necesitás `uv sync --all-groups` para que el venv refleje el cambio.
+- Justo después de clonar el repo (tampoco hace falta `--frozen` porque vas a hacer `uv sync` primero).
+
+**Regla simple:** después de cualquier `uv sync`, todos los `uv run` posteriores deben tener `--frozen`.
+
 ### `pip install` o `python -m venv` no funciona como en tutoriales
 
 El template usa `uv`, no `pip`+`venv`. Los comandos equivalentes:
@@ -68,10 +82,10 @@ El template usa `uv`, no `pip`+`venv`. Los comandos equivalentes:
 |----------------------------|----------------------|
 | `python -m venv .venv` | (no hace falta — uv lo crea solo) |
 | `source .venv/bin/activate` | (opcional — `uv run` lo activa por vos) |
-| `pip install -r requirements.txt` | `uv sync` |
+| `pip install -r requirements.txt` | `uv sync --all-groups` |
 | `pip install paquete` | `uv add paquete` |
-| `python script.py` | `uv run python script.py` |
-| `pytest` | `uv run pytest` |
+| `python script.py` | `uv run --frozen python script.py` |
+| `pytest` | `uv run --frozen pytest` |
 
 ### `.env` no se carga / variables no leídas
 
@@ -83,7 +97,7 @@ ls -la .env
 cp .env.example .env
 
 # 3. Verificá que el backend lo lee:
-uv run python -c "from dotenv import load_dotenv; load_dotenv(); import os; print(os.getenv('MOCK_MODE'))"
+uv run --frozen python -c "from dotenv import load_dotenv; load_dotenv(); import os; print(os.getenv('MOCK_MODE'))"
 # Debe imprimir: true
 ```
 
@@ -101,7 +115,7 @@ lsof -i :8000
 # Después: kill -9 <PID>
 
 # O usá otro puerto:
-uv run uvicorn app.main:app --reload --port 8002
+uv run --frozen uvicorn app.main:app --reload --port 8002
 
 # Windows:
 netstat -ano | findstr :8000
@@ -159,10 +173,10 @@ El Mock LLM no está corriendo. Tenés que levantarlo en una **segunda terminal*
 
 ```bash
 # Terminal 1: backend
-uv run uvicorn app.main:app --reload
+uv run --frozen uvicorn app.main:app --reload
 
 # Terminal 2 (nueva): Mock LLM
-uv run uvicorn app.mock_llm:mock_app --port 8001
+uv run --frozen uvicorn app.mock_llm:mock_app --port 8001
 
 # Verificá:
 curl http://localhost:8001/health
@@ -214,7 +228,7 @@ OPENAI_BASE_URL=https://api.openai.com/v1   # para OpenAI
 
 ```bash
 # Tenés que correrlo via uv:
-uv run pytest
+uv run --frozen pytest
 
 # No: pytest (esto busca en el sistema, no en el venv del proyecto)
 ```
@@ -225,7 +239,7 @@ Estás corriendo pytest desde una subcarpeta. Volvé a la raíz:
 
 ```bash
 cd /ruta/a/ia-dev-template
-uv run pytest
+uv run --frozen pytest
 ```
 
 ### Coverage < 60% en CI
@@ -234,7 +248,7 @@ El umbral del template es 60% (configurado en `pyproject.toml`). Si tu PR rompe 
 
 ```bash
 # Mirá qué líneas no están cubiertas:
-uv run pytest --cov=app --cov-report=term-missing
+uv run --frozen pytest --cov=app --cov-report=term-missing
 
 # Agregá tests específicos para las líneas no cubiertas.
 ```
@@ -245,10 +259,10 @@ Es esperado si el Mock LLM no está corriendo. Para correrlo de verdad:
 
 ```bash
 # Terminal 1:
-uv run uvicorn app.mock_llm:mock_app --port 8001
+uv run --frozen uvicorn app.mock_llm:mock_app --port 8001
 
 # Terminal 2:
-uv run pytest tests/test_sanity.py::test_mock_llm_response_structure -v
+uv run --frozen pytest tests/test_sanity.py::test_mock_llm_response_structure -v
 ```
 
 ### `tests/test_agent.py` falla con `ImportError: tests.mocks`
@@ -266,7 +280,7 @@ Tu ruff local es viejo. Sincronizá:
 
 ```bash
 uv sync --all-groups
-uv run ruff check .
+uv run --frozen ruff check .
 ```
 
 ---
@@ -308,10 +322,10 @@ Aceptá el assignment de GitHub Classroom desde el link que el instructor compar
 
 ```bash
 # Corré el mismo pipeline que el CI, localmente:
-uv run ruff check .
-uv run mypy app/ --ignore-missing-imports
-uv run bandit -r app/ -ll -q
-uv run pytest -q --cov=app --cov-fail-under=60
+uv run --frozen ruff check .
+uv run --frozen mypy app/ --ignore-missing-imports
+uv run --frozen bandit -r app/ -ll -q
+uv run --frozen pytest -q --cov=app --cov-fail-under=60
 ```
 
 Cualquier comando que falle es el que está rompiendo el CI.
@@ -396,4 +410,4 @@ Salida de bash scripts/verify_setup.sh:
 ---
 
 *Última actualización: junio 2026 — Cohorte 2026-I.*
-*Si encontrás un error nuevo no documentado acá, abrí un Issue en el repo del handbook para que se incorpore.*
+*Si encontrás un error nuevo no documentado acá, abrí un Issue en el repo o un comentario en Discord.*

@@ -42,7 +42,7 @@ Este repositorio es tu entorno de trabajo durante los 5 módulos del diplomado. 
 
 ---
 
-## Setup rápido (obligatorio antes de Clase 01)
+## Setup rápido (obligatorio)
 
 ```bash
 # 1. Clona tu repo (el link lo recibes del instructor via GitHub Classroom)
@@ -58,7 +58,7 @@ uv sync --all-groups
 # 4. Verifica que todo está listo (22 chequeos automáticos)
 bash scripts/verify_setup.sh
 
-# Si el script termina con "✅ Entorno listo": estás listo para Clase 1.
+# Si el script termina con "✅ Entorno listo": estás listo.
 # Si falla algo: leé docs/RUNBOOK_TROUBLESHOOTING.md antes de pedir ayuda.
 ```
 

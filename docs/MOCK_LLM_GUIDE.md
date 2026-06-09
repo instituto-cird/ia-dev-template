@@ -2,7 +2,7 @@
 
 > **Cuándo leer esto**: antes del Lab 4 (Track B). Para Labs 0-3 alcanza con saber que el Mock arranca con `uv run uvicorn app.mock_llm:mock_app --port 8001`.
 
-> **Para qué existe el Mock LLM**: para que los 50 estudiantes del cohorte puedan completar todos los Labs sin necesidad de pagar API keys de OpenAI/Anthropic. Es la opción por defecto (`MOCK_MODE=true` en `.env`).
+> **Para qué existe el Mock LLM**: para que los estudiantes de la cohorte puedan completar todos los Labs sin necesidad de pagar API keys de OpenAI/Anthropic. Es la opción por defecto (`MOCK_MODE=true` en `.env`).
 
 ---
 

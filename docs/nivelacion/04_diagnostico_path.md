@@ -12,7 +12,7 @@
 1. Identifica en qué bug del Lab 0 tuviste dificultades (o no pudiste resolver).
 2. Sigue el plan de nivelación correspondiente.
 3. Completa los ejercicios de verificación al final de cada plan.
-4. **Antes de Clase 01:** confirma que puedes completar Lab 0 en menos de 30 minutos.
+4. Confirma que puedes completar Lab 0 en menos de 30 minutos.
 
 Si el instructor te contactó después del Lab 0 indicando un área específica, búscala directamente en la sección correspondiente.
 
@@ -50,7 +50,7 @@ Pon atención especial en:
 
 ### Ejercicio de verificación
 
-Completa este ejercicio en tu repo antes de Clase 01:
+Completa este ejercicio en tu repo:
 
 ```bash
 # 1. Crea una rama nueva
@@ -275,7 +275,7 @@ irm https://astral.sh/uv/install.ps1 | iex
 
 Esto indica que hay múltiples áreas débiles simultáneamente. El plan recomendado es:
 
-### Semana -2 (antes de Clase 01): 6-8 horas en total
+### 6-8 horas en total
 
 **Día 1 (2h):** Setup de ambiente completo + Git básico
 - [Plan D](#plan-d--setup-de-ambiente) completo
@@ -293,7 +293,7 @@ Esto indica que hay múltiples áreas débiles simultáneamente. El plan recomen
 - Completar el ejercicio de verificación del Plan C
 - Abrir un PR real con el endpoint /ping y esperar que el CI corra en verde
 
-### Indicador de readiness para Clase 01
+### Cómo saber si estoy listo/a
 
 Estás listo si puedes completar esto en menos de 20 minutos:
 ```bash
@@ -384,7 +384,7 @@ Si el `curl` retorna el JSON esperado: tu Dockerfile funciona correctamente.
 
 ## Después de la nivelación — ¿Cuándo es suficiente?
 
-No necesitas ser experto en todo esto antes de Clase 01.
+No necesitas ser experto en todo esto.
 Necesitas poder hacer esto sin ayuda:
 
 - [ ] Clonar tu repo, correr `uv sync`, correr `pytest`, ver CI verde
@@ -399,7 +399,7 @@ El resto lo irás aprendiendo en contexto durante los módulos.
 
 ## ¿Todavía tienes dudas?
 
-Escribe al canal del diplomado en el Classroom antes de Clase 01.
+Escribe al canal del diplomado en el Classroom antes.
 Incluye:
 1. El error exacto que ves (copia y pega el output, no "no funciona")
 2. El comando que ejecutaste

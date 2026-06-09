@@ -1,6 +1,6 @@
 # 🩺 Verificación de Setup
 
-> **Cuándo usar este documento**: antes de la Clase 1, antes del Lab 4, y siempre que sospeches que algo no anda bien. Te ahorra horas de troubleshooting a ciegas.
+> **Cuándo usar este documento**: siempre que sospeches que algo no anda bien. Te ahorra horas de troubleshooting a ciegas.
 
 ---
 
@@ -80,7 +80,6 @@ Confirma que estás en un repo git con remote configurado (necesario para entreg
 ## Cuándo ejecutarlo
 
 **Obligatorio**:
-- Antes de la Clase 1
 - Después de hacer `git pull` con cambios importantes del template
 - Antes de abrir cualquier PR de evaluación
 

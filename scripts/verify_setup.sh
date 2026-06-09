@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # scripts/verify_setup.sh
 # Verifica que el entorno del estudiante está correctamente configurado.
-# Pensado para correrse antes de la Clase 1 y al inicio de cada módulo nuevo.
+# Pensado para correrse al inicio de cada módulo nuevo.
 #
 # USO
 #   bash scripts/verify_setup.sh

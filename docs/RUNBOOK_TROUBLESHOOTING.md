@@ -395,5 +395,5 @@ Salida de bash scripts/verify_setup.sh:
 
 ---
 
-*Última actualización: junio 2026 — Cohorte 2026-II.*
+*Última actualización: junio 2026 — Cohorte 2026-I.*
 *Si encontrás un error nuevo no documentado acá, abrí un Issue en el repo del handbook para que se incorpore.*

@@ -79,7 +79,7 @@ Lab 0 — Verificación de entorno
 □ El servidor FastAPI arranca con uvicorn app.main:app
 ```
 
-Si puedes marcar todos los puntos, estás listo/a para la Clase 1.
+Si puedes marcar todos los puntos, estás listo/a.
 Si alguno falla, el documento de tu nivel tiene instrucciones para resolver los problemas más comunes.
 
 ---

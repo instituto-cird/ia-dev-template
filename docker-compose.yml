@@ -1,14 +1,13 @@
-version: '3.8'
-
 services:
   # 1. La API
   backend:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile.backend
     command: uv run uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
     ports: ["8000:8000"]
     environment:
+      - MOCK_MODE=true
       - OPENAI_BASE_URL=http://mock-llm:8001/v1  # Apuntamos al Mock
       - OPENAI_API_KEY=sk-mock-key-123
     depends_on:
@@ -16,7 +15,7 @@ services:
 
   # 2. El Frontend
   frontend:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile.frontend
     command: uv run streamlit run frontend/app.py --server.port 8501 --server.address 0.0.0.0
@@ -26,7 +25,7 @@ services:
 
   # 3. El Mock LLM
   mock-llm:
-    image: python:3.11-slim
+    image: python:3.12-slim
     working_dir: /app
     volumes:
       - ./app/mock_llm.py:/app/mock_llm.py

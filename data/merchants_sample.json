@@ -1,0 +1,105 @@
+{
+  "_comment": "Datos de muestra de LegacyPay para ejercicios del diplomado. NO usar en producción.",
+  "version": "1.0",
+  "merchants": [
+    {
+      "merchant_id": "MCHT-00001",
+      "name": "Farmacia Central Santiago",
+      "category": "pharmacy",
+      "status": "active",
+      "daily_limit_usd": 5000.00,
+      "monthly_volume_usd": 48000.00,
+      "risk_level": "low",
+      "pci_compliant": true,
+      "onboarded_at": "2021-03-15",
+      "avg_transaction_7d_usd": 124.50
+    },
+    {
+      "merchant_id": "MCHT-00002",
+      "name": "Restaurante El Parrón",
+      "category": "food_beverage",
+      "status": "active",
+      "daily_limit_usd": 3000.00,
+      "monthly_volume_usd": 21000.00,
+      "risk_level": "low",
+      "pci_compliant": true,
+      "onboarded_at": "2022-07-01",
+      "avg_transaction_7d_usd": 67.80
+    },
+    {
+      "merchant_id": "MCHT-00003",
+      "name": "TechStore Providencia",
+      "category": "electronics",
+      "status": "active",
+      "daily_limit_usd": 20000.00,
+      "monthly_volume_usd": 185000.00,
+      "risk_level": "medium",
+      "pci_compliant": true,
+      "onboarded_at": "2020-11-20",
+      "avg_transaction_7d_usd": 843.00
+    },
+    {
+      "merchant_id": "MCHT-00042",
+      "name": "Importadora Rápida Ltda.",
+      "category": "wholesale",
+      "status": "active",
+      "daily_limit_usd": 50000.00,
+      "monthly_volume_usd": 420000.00,
+      "risk_level": "high",
+      "pci_compliant": true,
+      "onboarded_at": "2019-05-10",
+      "avg_transaction_7d_usd": 12400.00
+    },
+    {
+      "merchant_id": "MCHT-00099",
+      "name": "Outlet Moda Sur",
+      "category": "clothing",
+      "status": "suspended",
+      "daily_limit_usd": 0.00,
+      "monthly_volume_usd": 0.00,
+      "risk_level": "high",
+      "pci_compliant": false,
+      "onboarded_at": "2023-01-08",
+      "avg_transaction_7d_usd": 0.00,
+      "suspension_reason": "Patron de transacciones irregulares detectado en Oct 2025"
+    }
+  ],
+  "transactions_sample": [
+    {
+      "transaction_id": "TXN-2025-001847",
+      "merchant_id": "MCHT-00042",
+      "amount_usd": 45200.00,
+      "timestamp": "2025-10-14T03:22:17Z",
+      "status": "flagged",
+      "flag_reason": "Supera 3.6x el promedio de 7 dias del comerciante",
+      "incident_ref": "INC-OCT-2025-A"
+    },
+    {
+      "transaction_id": "TXN-2025-002103",
+      "merchant_id": "MCHT-00099",
+      "amount_usd": 18750.00,
+      "timestamp": "2025-10-28T14:05:33Z",
+      "status": "flagged",
+      "flag_reason": "Comerciante en categoria de riesgo alto con volumen inusual",
+      "incident_ref": "INC-OCT-2025-B"
+    },
+    {
+      "transaction_id": "TXN-2025-003201",
+      "merchant_id": "MCHT-00001",
+      "amount_usd": 128.50,
+      "timestamp": "2025-11-03T10:15:00Z",
+      "status": "approved",
+      "flag_reason": null,
+      "incident_ref": null
+    },
+    {
+      "transaction_id": "TXN-2025-003892",
+      "merchant_id": "MCHT-00003",
+      "amount_usd": 2100.00,
+      "timestamp": "2025-11-10T16:42:00Z",
+      "status": "approved",
+      "flag_reason": null,
+      "incident_ref": null
+    }
+  ]
+}

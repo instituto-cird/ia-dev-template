@@ -2,11 +2,11 @@
 name = "ia-dev-template"
 version = "0.1.0"
 description = "Template diplomado IA aplicado al desarrollo de software (FastAPI + Mock LLM + Agentes)"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 dependencies = [
   "fastapi>=0.109.0",
   "uvicorn[standard]>=0.27.0",
-  "pydantic>=2.6.0",
+  "pydantic>=2.8,<2.10",
   "httpx>=0.26.0",
   "python-dotenv>=1.0.0",
 ]
@@ -22,9 +22,43 @@ llm = [
 [dependency-groups]
 dev = [
   "pytest>=8,<9",
+  "pytest-asyncio>=0.23",
+  "pytest-cov>=4,<6",
   "ruff>=0.2",
   "coverage>=7,<8",
+  "mypy>=1.13,<1.17",
+  "pathspec>=0.10,<0.13",
+  "bandit>=1.7",
+  "httpx>=0.26.0",  # explícito para tests (no depender de transitiva de FastAPI)
 ]
 
 [tool.ruff]
 line-length = 88
+
+[tool.ruff.lint]
+# E,F,W = pycodestyle/pyflakes  ·  I = isort  ·  N = pep8-naming
+# UP = pyupgrade  ·  BLE = blind-except  ·  PLW = pylint warnings
+# S = flake8-bandit (detecta eval, hardcoded secrets, etc. — AI Smell de Lab 1)
+select = ["E", "F", "W", "I", "N", "UP", "BLE", "PLW", "S"]
+ignore = ["E501", "S101"]  # S101 = assert en tests es OK
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "S106"]  # asserts y "passwords" hardcodeados en tests son OK
+
+[tool.mypy]
+python_version = "3.12"
+ignore_missing_imports = true
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.coverage.run]
+source = ["app"]
+omit = ["app/mock_llm.py"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 60

@@ -9,10 +9,10 @@
 
 ## Cómo usar este documento
 
-1. Identifica en qué bug del Lab 0 tuviste dificultades (o no pudiste resolver).
-2. Sigue el plan de nivelación correspondiente.
-3. Completa los ejercicios de verificación al final de cada plan.
-4. Confirma que puedes completar Lab 0 en menos de 30 minutos.
+1. Identificá en qué bug del Lab 0 tuviste dificultades (o no pudiste resolver).
+2. Seguí el plan de nivelación correspondiente.
+3. Completá los ejercicios de verificación al final de cada plan.
+4. Confirmá que podés completar Lab 0 con confianza, sin buscar ayuda externa.
 
 Si el instructor te contactó después del Lab 0 indicando un área específica, búscala directamente en la sección correspondiente.
 
@@ -27,7 +27,7 @@ Si el instructor te contactó después del Lab 0 indicando un área específica,
 | No pude leer el error de `uv sync` para identificar el typo | Python / Dependencias | [Plan B — Python y tests](#plan-b--python-y-tests) |
 | No entendí qué era el `ci.yml` ni cómo modificarlo | CI/GitHub Actions | [Plan C — CI y GitHub Actions](#plan-c--ci-y-github-actions) |
 | No supe instalar Python 3.12 o configurar uv | Ambiente local | [Plan D — Setup de ambiente](#plan-d--setup-de-ambiente) |
-| Tardé más de 3 horas en total | Múltiples áreas | [Plan E — Nivelación intensiva](#plan-e--nivelación-intensiva) |
+| Lo intenté varias veces y no lo logré completar | Múltiples áreas | [Plan E — Nivelación intensiva](#plan-e--nivelación-intensiva) |
 | Completé todo pero no entiendo para qué sirve FastAPI | FastAPI | [Plan F — FastAPI básico](#plan-f--fastapi-básico) |
 | No sé qué es Docker ni si lo necesito ya | Docker | [Plan G — Docker básico](#plan-g--docker-básico) |
 
@@ -36,8 +36,6 @@ Si el instructor te contactó después del Lab 0 indicando un área específica,
 ## Plan A — Git workflow
 
 **Síntoma:** Dificultad para crear ramas, hacer commits, abrir un PR.
-
-**Tiempo estimado de nivelación:** 2 horas
 
 ### Lectura obligatoria
 
@@ -79,8 +77,6 @@ git push origin nivelacion/git-test
 
 **Síntoma:** No pude leer un stack trace de pytest, no entiendo type hints,
 `uv sync` falló y no supe diagnosticarlo.
-
-**Tiempo estimado de nivelación:** 3 horas
 
 ### Lectura obligatoria
 
@@ -150,8 +146,6 @@ no reporta errores: estás listo para M1.
 no supe cómo ver el resultado del CI en GitHub, o no entendí
 por qué el CI fallaba aunque "en mi máquina funcionaba".
 
-**Tiempo estimado de nivelación:** 1 hora
-
 ### Lectura obligatoria
 
 Lee la sección 7 de [docs/nivelacion/03_git_github_guide.md](03_git_github_guide.md):
@@ -215,8 +209,6 @@ uv run --frozen pytest -q --cov=app --cov-fail-under=60
 **Síntoma:** No pude instalar Python 3.12, uv, o Git correctamente.
 El ambiente local no funciona después de clonar el repo.
 
-**Tiempo estimado de nivelación:** 1-2 horas
-
 ### Checklist de instalación
 
 ```bash
@@ -235,7 +227,7 @@ uv --version
 # Debe retornar: uv x.x.x
 
 # 4. Clonar y configurar el repo
-git clone https://github.com/ia-aplicada-al-desarrollo-de-software/[tu-repo-asignado].git
+git clone https://github.com/instituto-cird/[tu-repo-asignado].git
 cd [tu-repo]
 uv sync --all-groups    # uv descarga Python 3.12 automáticamente si no está
 uv run --frozen python --version # Debe retornar: Python 3.12.x
@@ -271,35 +263,35 @@ irm https://astral.sh/uv/install.ps1 | iex
 
 ## Plan E — Nivelación intensiva
 
-**Síntoma:** Tardaste más de 3 horas en Lab 0, o no pudiste completarlo.
+**Síntoma:** Intentaste el Lab 0 varias veces y no pudiste completarlo.
 
-Esto indica que hay múltiples áreas débiles simultáneamente. El plan recomendado es:
+Esto indica que hay múltiples áreas débiles simultáneamente. El plan recomendado es trabajarlas **secuencialmente**, en orden, distribuido en varias sesiones (no intentes hacerlo todo de una):
 
-### 6-8 horas en total
+### Secuencia recomendada
 
-**Día 1 (2h):** Setup de ambiente completo + Git básico
+**Paso 1 — Setup de ambiente completo + Git básico**
 - [Plan D](#plan-d--setup-de-ambiente) completo
 - Secciones 1-5 de [docs/nivelacion/03_git_github_guide.md](03_git_github_guide.md)
 
-**Día 2 (2h):** Python esencial
+**Paso 2 — Python esencial**
 - [docs/nivelacion/00_python_essentials.md](00_python_essentials.md) completo
 - Escribir los 3 tests del ejercicio de verificación del Plan B
 
-**Día 3 (2h):** FastAPI básico
+**Paso 3 — FastAPI básico**
 - [docs/nivelacion/01_fastapi_guide.md](01_fastapi_guide.md) secciones 1-3
 - Agregar un endpoint GET /ping a `app/main.py` con su test
 
-**Día 4 (2h):** CI y primer PR
+**Paso 4 — CI y primer PR**
 - Completar el ejercicio de verificación del Plan C
 - Abrir un PR real con el endpoint /ping y esperar que el CI corra en verde
 
-### Cómo saber si estoy listo/a
+### Cómo saber si estás listo/a
 
-Estás listo si puedes completar esto en menos de 20 minutos:
+Estás listo si podés completar esto sin buscar ayuda:
 ```bash
 git checkout -b feature/readiness-test
-# Agrega un endpoint GET /ready que retorne {"ready": true}
-# Escribe su test
+# Agregá un endpoint GET /ready que retorne {"ready": true}
+# Escribí su test
 git add . && git commit -m "feat: add /ready endpoint"
 git push origin feature/readiness-test
 # Abre PR → espera CI verde → cierra sin mergear
@@ -312,9 +304,7 @@ git push origin feature/readiness-test
 **Síntoma:** Completé Lab 0 pero no entiendo para qué sirve FastAPI,
 qué es un endpoint, o qué hace Pydantic.
 
-**Tiempo estimado de nivelación:** 1.5 horas
-
-Lee: [docs/nivelacion/01_fastapi_guide.md](01_fastapi_guide.md) completo.
+Leé: [docs/nivelacion/01_fastapi_guide.md](01_fastapi_guide.md) completo.
 
 ### Ejercicio de verificación
 
@@ -355,12 +345,9 @@ Si `uv run --frozen pytest tests/test_sanity.py -v` pasa con estos dos nuevos te
 **Síntoma:** No sé qué es Docker, no lo tengo instalado,
 o no entiendo qué hace `docker compose up`.
 
-**Tiempo estimado de nivelación:** 1 hora
+Docker **no es obligatorio en los Módulos 0-4**. Lo introducimos en el **Módulo 5 (Hardening + Proyecto Final)**. Podés posponer este plan hasta llegar al M5 — no te bloquea para empezar el diplomado.
 
-Docker NO es obligatorio hasta M3. Puedes empezar el diplomado sin él.
-Pero instálalo ahora para no bloquearte cuando llegue el momento.
-
-Lee: [docs/nivelacion/02_docker_guide.md](02_docker_guide.md) secciones 1-4.
+Leé: [docs/nivelacion/02_docker_guide.md](02_docker_guide.md) secciones 1-4 cuando llegue ese momento.
 
 ### Ejercicio de verificación (cuando tengas Docker instalado)
 

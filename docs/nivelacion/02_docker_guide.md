@@ -1,10 +1,8 @@
 # Nivelación: Docker para el Diplomado
 
-> **¿Para quién?** Si nunca has escrito un Dockerfile o no entiendes qué hace
-> `docker compose up`. Tiempo estimado: 1 hora.
+> **¿Para quién?** Si nunca escribiste un Dockerfile o no entendés qué hace `docker compose up`.
 >
-> En el diplomado, Docker es obligatorio a partir de M3 para garantizar que
-> "funciona en mi máquina" no sea una excusa válida en la defensa.
+> **Cuándo usarlo:** Docker **no es obligatorio en los Módulos 0-4** — el stack del template corre nativo con `uv run --frozen`. Lo introducimos en el **Módulo 5 (Hardening + Proyecto Final)** para demostrar reproducibilidad estricta en el Demo Day. Esta guía te prepara para ese momento; podés posponer su lectura hasta que llegues al M5.
 
 ---
 

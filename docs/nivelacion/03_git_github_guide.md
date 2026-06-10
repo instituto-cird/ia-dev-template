@@ -1,12 +1,12 @@
 # Nivelación: Git y GitHub para el Diplomado
 
-> **¿Para quién?** Si usas Git solo con `git add . && git commit -m "fix" && git push` y
-> nunca has abierto un Pull Request desde la línea de comandos, o si no sabes qué
-> hace `git rebase` ni por qué importa el historial. Tiempo estimado: 1.5-2 horas.
+> **¿Para quién?** Si usás Git solo con `git add . && git commit -m "fix" && git push` y
+> nunca abriste un Pull Request desde la línea de comandos, o si no sabés qué
+> hace `git rebase` ni por qué importa el historial.
 >
 > En el diplomado el historial de commits ES parte de la evaluación.
 > Un repo con mensajes tipo "asdfgh" o "fix final final v3" comunica lo contrario
-> de lo que buscas en una defensa técnica.
+> de lo que buscás en una defensa técnica.
 
 ---
 
@@ -55,13 +55,13 @@ git config --global --list
 ```bash
 # 1. Clona TU repo (el que GitHub Classroom creó para ti)
 #    Classroom: https://classroom.github.com/classrooms/254552850-ia-aplicada-al-desarrollo-de-software
-git clone https://github.com/ia-aplicada-al-desarrollo-de-software/[tu-repo-asignado].git
+git clone https://github.com/instituto-cird/[tu-repo-asignado].git
 cd [tu-repo-asignado]
 
 # 2. Verifica que apunta al origen correcto
 git remote -v
 # Debe mostrar:
-# origin  https://github.com/ia-aplicada-al-desarrollo-de-software/[tu-repo].git
+# origin  https://github.com/instituto-cird/[tu-repo].git
 
 # 3. Setup del ambiente
 uv sync --all-groups

@@ -1,7 +1,6 @@
 # Nivelación: FastAPI para el Diplomado
 
-> **¿Para quién?** Si vienes de Flask, Django, Express o nunca has hecho una API
-> en Python. Tiempo estimado: 1-2 horas.
+> **¿Para quién?** Si venís de Flask, Django, Express o nunca hiciste una API en Python.
 
 ---
 

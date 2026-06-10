@@ -1,12 +1,10 @@
 # Nivel 1 — Python y Web Básico
 
-> **Para quién**: conoces Python lo suficiente para no perderte con funciones y listas,
-> pero nunca has trabajado con APIs, entornos virtuales, variables de entorno,
-> o no te sientes cómodo/a leyendo un error de Python.
+> **Para quién**: conocés Python lo suficiente para no perderte con funciones y listas,
+> pero nunca trabajaste con APIs, entornos virtuales, variables de entorno,
+> o no te sentís cómodo/a leyendo un error de Python.
 >
-> **Tiempo estimado**: 6–10 horas.
->
-> **Prerequisito**: completa el Nivel 0, o verifica que puedes hacer el mini proyecto
+> **Prerequisito**: completá el Nivel 0, o verificá que podés hacer el mini proyecto
 > del final de ese documento sin dificultad.
 
 ---
@@ -15,76 +13,31 @@
 
 ### El problema sin entornos virtuales
 
-Imagina que instalas la librería `requests` versión 2.28 para un proyecto. Luego instalas otro proyecto que necesita `requests` versión 2.25. Python solo puede tener una versión instalada globalmente → uno de los proyectos se rompe.
+Imaginá que instalás la librería `httpx` versión 0.25 para un proyecto. Después instalás otro proyecto que necesita `httpx` versión 0.27. Python solo puede tener una versión instalada globalmente → uno de los proyectos se rompe.
 
 Los **entornos virtuales** resuelven esto creando una instalación de Python aislada por proyecto. Cada proyecto tiene sus propias librerías, sin interferir con los demás.
 
-### Crear y activar un entorno virtual
+### El enfoque tradicional (`venv` + `pip`) — referencial
+
+Históricamente esto se hace con dos pasos:
 
 ```bash
-# 1. Entra a la carpeta de tu proyecto
-cd mi-proyecto
-
-# 2. Crea el entorno virtual (se llama .venv por convención)
-python3 -m venv .venv
-
-# 3. Activa el entorno virtual
-
-# Mac/Linux:
-source .venv/bin/activate
-
-# Windows PowerShell:
-.venv\Scripts\Activate.ps1
-
-# Windows CMD:
-.venv\Scripts\activate.bat
-
-# Sabrás que está activado porque el prompt cambia:
-# (de)  user@machine:~/mi-proyecto$
-# (a)   (.venv) user@machine:~/mi-proyecto$
+python3 -m venv .venv             # crea el entorno virtual
+source .venv/bin/activate          # lo activa (Linux/macOS)
+pip install -r requirements.txt    # instala las librerías listadas
 ```
 
-### Usar el entorno activado
+Este patrón fue estándar durante más de 10 años. **Lo mencionamos para que lo reconozcas en tutoriales y documentación que vas a leer**, pero no es el que vas a usar en el diplomado.
 
-```bash
-# Instalar una librería DENTRO del entorno (no globalmente)
-pip install requests
+### El enfoque del diplomado: `uv`
 
-# Verificar que se instaló en el entorno, no en el sistema
-which python3     # Mac/Linux → debería apuntar a .venv/bin/python3
-where python      # Windows
+El diplomado usa **`uv`** (escrito en Rust por Astral) que reemplaza `venv` + `pip` + `pip-tools` + `pyenv` en un solo binario. La razón es simple: cuando le pedís a una IA que sugiera una librería nueva, `uv` la instala en milisegundos. Con `pip` puede tardar 30 segundos cada vez — y en 90 minutos de práctica, esa diferencia se siente.
 
-# Desactivar el entorno cuando terminas de trabajar
-deactivate
-```
+Los comandos clave los vas a aprender en el **Nivel 2** (`00_python_essentials.md`). Por ahora, basta con saber:
 
-> ⚠️ **Regla del curso**: siempre activa el entorno virtual antes de trabajar.
-> Si instalas librerías sin activarlo, las instalas globalmente y eventualmente tendrás conflictos.
-
-### requirements.txt — la lista de dependencias
-
-```bash
-# Guardar las dependencias instaladas en un archivo
-pip freeze > requirements.txt
-
-# El archivo se verá así:
-# requests==2.31.0
-# pydantic==2.5.0
-# fastapi==0.109.0
-
-# Instalar todas las dependencias de un proyecto existente
-pip install -r requirements.txt
-```
-
-**Flujo normal al clonar un proyecto del diplomado:**
-```bash
-git clone git@github.com:usuario/ia-dev-template.git
-cd ia-dev-template
-python3 -m venv .venv
-source .venv/bin/activate        # (o el equivalente en tu OS)
-pip install -r requirements.txt
-pip install -r requirements-dev.txt
-```
+- `uv sync --all-groups` reemplaza el flujo de `venv` + `pip install -r requirements.txt`
+- `uv run --frozen <comando>` reemplaza `source .venv/bin/activate` + `<comando>`
+- El proyecto del diplomado **no tiene** `requirements.txt` — todo vive en `pyproject.toml` + `uv.lock`
 
 ---
 
@@ -399,39 +352,32 @@ git status           # Ver qué archivos están modificados o sin guardar
 
 ---
 
-## Práctica final — Prepara el entorno del diplomado
+## Práctica final — Verificá que podés hacer esto
 
-Antes de continuar al Nivel 2, verifica que puedes hacer esto:
+Antes de pasar al Nivel 2, completá este mini check. Si te traba alguno, el Nivel 2 te enseña los comandos exactos:
 
 ```bash
-# 1. Clona el repositorio del diplomado
-git clone git@github.com:[URL-del-instructor]/ia-dev-template.git
-cd ia-dev-template
+# 1. Crear una carpeta de práctica — no es necesario clonar el template todavía
+mkdir ~/practica-nivel1
+cd ~/practica-nivel1
 
-# 2. Crea y activa el entorno virtual
+# 2. Crear un entorno virtual y activarlo
 python3 -m venv .venv
-source .venv/bin/activate    # (.venv\Scripts\activate en Windows)
+source .venv/bin/activate      # macOS/Linux  |  .venv\Scripts\activate en Windows
 
-# 3. Instala las dependencias
-pip install -r requirements.txt
-pip install -r requirements-dev.txt
+# 3. Instalar httpx y consumir una API
+pip install httpx
+python3 -c "import httpx; r = httpx.get('https://jsonplaceholder.typicode.com/users/1'); print(r.json()['name'])"
+# Debería imprimir: Leanne Graham
 
-# 4. Configura las variables de entorno
-cp .env.example .env
-# Abre .env y agrega: MOCK_MODE=true
-
-# 5. Verifica que los tests pasan
-pytest -q
-# Debe mostrar algo como: 3 passed in 0.45s
-
-# 6. Inicia el servidor
-uvicorn app.main:app --reload
-# Abre http://localhost:8000/docs en el navegador
-# Debes ver la documentación de la API
+# 4. Desactivar el entorno
+deactivate
 ```
 
-Si todos los pasos funcionan → estás listo/a para el Nivel 2 y para la primera clase.
+Si ese flujo te corrió sin errores, **el concepto de entornos virtuales te quedó claro**. Ahora pasá al Nivel 2 — ahí vas a aprender a hacer lo mismo con `uv`, que es lo que el template del diplomado espera.
+
+> **El "setup real" del Lab 0** (clonar desde GitHub Classroom + `uv sync` + `verify_setup.sh` + PR) está documentado en `00_guia_onboarding.md` del Módulo 0. No lo hagas todavía — primero terminá el Nivel 2.
 
 ---
 
-*Continúa con* → `python_essentials.md` (Nivel 2)
+*Continuá con* → `00_python_essentials.md` (Nivel 2)

@@ -1,10 +1,44 @@
 # Nivelación: Python Esencial para el Diplomado
 
-> **¿Para quién?** Si llevas menos de 1 año usando Python, o si nunca has usado
-> type hints, Pydantic o pytest. Tiempo estimado: 2-3 horas.
+> **¿Para quién?** Si llevás menos de 1 año usando Python, o si nunca usaste
+> type hints, Pydantic o pytest.
 >
 > Esto NO es un tutorial de Python. Es la lista mínima de conceptos que aparecen
 > en el código del diplomado desde el Día 1.
+
+---
+
+## 0. `uv` — el gestor de proyectos del diplomado
+
+`uv` reemplaza el flujo tradicional `venv` + `pip` + `pip-tools`. En el template del diplomado **no usamos `pip` directamente**. Estos son los comandos que vas a usar todo el cohorte:
+
+```bash
+# Setup inicial del proyecto (crea .venv automáticamente y baja todas las dependencias)
+uv sync --all-groups
+
+# Ejecutar cualquier comando del proyecto — siempre con --frozen para evitar reinstalls innecesarios
+uv run --frozen pytest
+uv run --frozen uvicorn app.main:app --reload
+uv run --frozen ruff check .
+
+# Agregar una nueva dependencia (actualiza pyproject.toml y uv.lock automáticamente)
+uv add httpx
+
+# Ejecutar Python directamente
+uv run --frozen python -c "import sys; print(sys.version)"
+```
+
+**Por qué `--frozen` en `uv run`:** sin esa flag, `uv` compara el venv con el lockfile en cada ejecución y a veces reinstala paquetes parcialmente — eso puede romper imports. Con `--frozen` le decís *"el venv ya está sincronizado, no toques nada"*. Detalle completo en `docs/RUNBOOK_TROUBLESHOOTING.md` del template.
+
+**Diferencia clave vs `venv` + `pip`:**
+
+| Tarea | venv + pip | uv |
+|-------|------------|-----|
+| Crear entorno | `python -m venv .venv` | (incluido en `uv sync`) |
+| Activarlo | `source .venv/bin/activate` | (no hace falta — `uv run` lo activa) |
+| Instalar deps | `pip install -r requirements.txt` | `uv sync --all-groups` |
+| Correr un script | `python script.py` | `uv run --frozen python script.py` |
+| Agregar librería | `pip install X && pip freeze > requirements.txt` | `uv add X` |
 
 ---
 

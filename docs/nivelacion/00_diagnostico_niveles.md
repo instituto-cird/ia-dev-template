@@ -38,10 +38,12 @@ o una terminal en Linux? ¿Puedes escribir `python3 --version` y ver el resultad
 
 ---
 
-### Pregunta 4 — ¿Has creado un entorno virtual en Python?
+### Pregunta 4 — ¿Has usado un gestor de dependencias en Python?
 
-¿Sabes qué hace `python3 -m venv .venv` y por qué existe?
-¿Has instalado dependencias con `pip install -r requirements.txt`?
+¿Sabés qué es un entorno virtual y por qué existe? Esto incluye haber usado
+cualquiera de: `python -m venv`, `pip install`, `poetry`, `conda`, o `uv`.
+El diplomado usa **`uv`** específicamente — si no lo conocés, no es un problema,
+se enseña en el Nivel 2.
 
 - **No** → Empieza en [Nivel 1](#nivel-1--python-y-web-básico)
 - **Sí** → [Nivel 2](#nivel-2--herramientas-específicas-del-curso) — estás listo/a para el material del curso
@@ -50,16 +52,11 @@ o una terminal en Linux? ¿Puedes escribir `python3 --version` y ver el resultad
 
 ## Resumen de niveles
 
-| Nivel | Perfil | Tiempo estimado | Documento |
-|-------|--------|-----------------|-----------|
-| **0** | Sin experiencia en programación o terminal | 12–20 horas | `nivel_0_punto_de_partida.md` |
-| **1** | Python básico, sin APIs ni entornos virtuales | 6–10 horas | `nivel_1_python_y_web_basico.md` |
-| **2** | Python con algo de web, aprende herramientas del curso | 3–5 horas | `python_essentials.md` |
-
-> ⚠️ **Sobre los tiempos**: son estimaciones reales, no tiempos de lectura.
-> Incluyen el tiempo de instalar herramientas, encontrar errores, releer ejemplos
-> y hacer las mini-prácticas. Si programas más de 3 años, divide por 2.
-> Si es tu primer contacto con el tema, multiplica por 1.5.
+| Nivel | Perfil | Documento |
+|-------|--------|-----------|
+| **0** | Sin experiencia en programación o terminal | `nivel_0_punto_de_partida.md` |
+| **1** | Python básico, sin APIs ni entornos virtuales | `nivel_1_python_y_web_basico.md` |
+| **2** | Python con algo de web, aprende herramientas del curso | `00_python_essentials.md` |
 
 ---
 
@@ -70,13 +67,13 @@ que se entrega antes de la primera sesión:
 
 ```
 Lab 0 — Verificación de entorno
-□ Python 3.11+ instalado y accesible desde la terminal
-□ Repositorio clonado desde GitHub con SSH
-□ Entorno virtual creado y activado
-□ pip install -r requirements.txt ejecutado sin errores
-□ pytest corre sin errores (al menos 1 test pasa)
-□ Archivo .env creado con MOCK_MODE=true
-□ El servidor FastAPI arranca con uvicorn app.main:app
+□ Python 3.12.x instalado y verificable con `python3 --version`
+□ `uv` instalado y verificable con `uv --version`
+□ Repositorio del Lab 0 aceptado y clonado desde GitHub Classroom
+□ Archivo .env creado con `cp .env.example .env` (MOCK_MODE=true viene por defecto)
+□ `uv sync --all-groups` ejecutado sin errores
+□ `bash scripts/verify_setup.sh` pasa los 22 chequeos
+□ Pull Request abierto con CI en verde
 ```
 
 Si puedes marcar todos los puntos, estás listo/a.
@@ -90,7 +87,6 @@ Si alguno falla, el documento de tu nivel tiene instrucciones para resolver los 
 También aplica si programas en otro lenguaje (Java, PHP, etc.) pero nunca usaste Python ni la terminal de forma habitual.
 
 → **Documento**: `nivel_0_punto_de_partida.md`
-→ **Tiempo**: 12–20 horas (puede distribuirse en varias semanas antes del inicio)
 
 Qué cubre:
 - Qué es la terminal y cómo usarla (Mac, Windows, Linux)
@@ -99,7 +95,8 @@ Qué cubre:
 - Qué es JSON y cómo se usa en programación
 - Qué es HTTP y cómo funciona una API REST (sin código)
 - Tu primer script Python funcional
-- Instalar Git y clonar un repositorio
+- Instalar Git, crear cuenta de GitHub y clonar un repositorio
+- Aceptar una tarea en GitHub Classroom (lo vas a hacer para el Lab 0)
 
 ---
 
@@ -108,16 +105,16 @@ Qué cubre:
 **Para quién**: conoces Python lo suficiente para no perderte, pero nunca has trabajado con APIs, entornos virtuales, o no te sientes cómodo/a con el flujo de un proyecto real.
 
 → **Documento**: `nivel_1_python_y_web_basico.md`
-→ **Tiempo**: 6–10 horas
 
 Qué cubre:
-- Entornos virtuales: por qué existen y cómo usarlos
-- pip y requirements.txt
+- Entornos virtuales: por qué existen y cómo funcionan (concepto general)
 - HTTP en profundidad: métodos, status codes, headers, body JSON
-- Consumir una API con requests y httpx
+- Consumir una API con `httpx` (la librería del diplomado; también verás `requests` en tutoriales viejos)
 - Variables de entorno (.env) y por qué no se suben a Git
 - Leer un stack trace y encontrar el error
 - Git: add, commit, push, pull, ramas básicas
+
+> Aunque el Nivel 1 te enseña conceptos generales de Python, en el diplomado vamos a usar **`uv`** (no `pip`). El Nivel 2 te muestra los comandos específicos.
 
 ---
 
@@ -125,10 +122,10 @@ Qué cubre:
 
 **Para quién**: tienes fluidez en Python y has consumido APIs, pero necesitas ponerte al día con las herramientas y patrones específicos del diplomado.
 
-→ **Documento**: `python_essentials.md`
-→ **Tiempo**: 3–5 horas
+→ **Documento**: `00_python_essentials.md`
 
 Qué cubre:
+- `uv` como gestor de proyectos: `uv sync`, `uv run --frozen`, `uv add`
 - Type hints y mypy
 - Pydantic v2 (la v1 tiene sintaxis diferente — no mezcles)
 - async/await con FastAPI

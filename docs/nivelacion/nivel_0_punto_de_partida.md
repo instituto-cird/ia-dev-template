@@ -1,12 +1,10 @@
 # Nivel 0 — Punto de Partida Absoluto
 
-> **Para quién**: no tienes experiencia en programación, o vienes de otro lenguaje
+> **Para quién**: no tenés experiencia en programación, o venís de otro lenguaje
 > y el ecosistema Python/terminal te es completamente ajeno.
 >
-> **Tiempo estimado**: 12–20 horas distribuidas en varios días.
-> No intentes hacerlo todo en una sola sesión.
->
 > **Meta**: poder completar el Lab 0 antes de la primera sesión del diplomado.
+> Distribuilo en varias sesiones — no intentes hacerlo todo de una.
 
 ---
 
@@ -85,7 +83,7 @@ Abre la terminal y escribe:
 python3 --version
 ```
 
-Si ves algo como `Python 3.12.3`, ya tienes Python instalado. Verifica que sea 3.11 o superior. Si tienes 3.10 o menos, sigue las instrucciones de instalación abajo.
+Si ves algo como `Python 3.12.3`, ya tenés Python instalado. **Verificá que sea 3.12.x exacto** (no 3.11, no 3.13 — el diplomado fija esta versión para garantizar reproducibilidad). Si tenés cualquier otra versión, seguí las instrucciones de instalación abajo.
 
 Si ves `command not found` (o un error similar), necesitas instalarlo.
 
@@ -106,7 +104,7 @@ python3 --version
 
 **Windows:**
 1. Ve a [python.org/downloads](https://www.python.org/downloads/)
-2. Descarga Python 3.12 (o la versión más reciente 3.11+)
+2. Descargá Python 3.12 (versión exacta — el diplomado no soporta 3.11 ni 3.13)
 3. **Importante**: durante la instalación, marca la casilla "Add Python to PATH"
 4. Completa la instalación
 5. Abre una nueva ventana de PowerShell y verifica: `python --version`
@@ -439,23 +437,24 @@ git commit -m "Agrego la función de validación de email"
 git push
 ```
 
-### Clonar el repositorio del diplomado
+### Clonar el repositorio del Lab 0
 
-El instructor compartirá la URL del repositorio. Para clonarlo con SSH (más seguro que HTTPS):
+El flujo del diplomado pasa por **GitHub Classroom**: en Moodle, vas a tener un enlace de invitación para el Lab 0. Cuando hagas click, GitHub te crea automáticamente un repositorio privado bajo tu cuenta con el template del curso.
+
+Una vez aceptada la invitación, andá a tu repo en GitHub, click en el botón verde **Code**, copiás la URL HTTPS, y en tu terminal:
 
 ```bash
-# Primero genera una clave SSH (solo si no tienes una):
-ssh-keygen -t ed25519 -C "tu@email.com"
-# Presiona Enter en cada pregunta para usar los valores por defecto
-
-# Luego muestra tu clave pública y cópiala:
-cat ~/.ssh/id_ed25519.pub
-
-# Agrega esa clave en: github.com → Settings → SSH and GPG keys → New SSH key
-
-# Ahora puedes clonar con SSH:
-git clone git@github.com:usuario/ia-dev-template.git
+git clone https://github.com/<tu-usuario>/lab-0-<tu-usuario>.git
+cd lab-0-<tu-usuario>
 ```
+
+La primera vez que pushees vas a necesitar autenticarte. GitHub eliminó las contraseñas — usá un **Personal Access Token (PAT)**:
+
+1. Andá a [github.com/settings/tokens](https://github.com/settings/tokens) → *Generate new token (classic)*
+2. Marcá los permisos `repo` y `workflow`
+3. Copiá el token y usalo como password cuando git te lo pida
+
+> **SSH es una alternativa más avanzada** (no requiere PAT, pero hay que generar y registrar una clave). Si ya sabés usar SSH o querés aprender, hay tutoriales en `docs/nivelacion/03_git_github_guide.md` dentro del repo del Lab.
 
 ---
 

@@ -376,7 +376,7 @@ deactivate
 
 Si ese flujo te corrió sin errores, **el concepto de entornos virtuales te quedó claro**. Ahora pasá al Nivel 2 — ahí vas a aprender a hacer lo mismo con `uv`, que es lo que el template del diplomado espera.
 
-> **El "setup real" del Lab 0** (clonar desde GitHub Classroom + `uv sync` + `verify_setup.sh` + PR) está documentado en `00_guia_onboarding.md` del Módulo 0. No lo hagas todavía — primero terminá el Nivel 2.
+> **El "setup real" del Lab 0** (clonar desde GitHub Classroom + `uv sync` + `verify_setup.sh` + PR) está documentado en Moodle (Módulo 0). No lo hagas todavía — primero terminá el Nivel 2.
 
 ---
 

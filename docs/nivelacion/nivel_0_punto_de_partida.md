@@ -3,8 +3,7 @@
 > **Para quién**: no tenés experiencia en programación, o venís de otro lenguaje
 > y el ecosistema Python/terminal te es completamente ajeno.
 >
-> **Meta**: poder completar el Lab 0 antes de la primera sesión del diplomado.
-> Distribuilo en varias sesiones — no intentes hacerlo todo de una.
+> **Meta**: poder completar el Lab 0 antes de arrancar con el contenido del diplomado.
 
 ---
 

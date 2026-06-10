@@ -70,9 +70,9 @@ Lab 0 — Verificación de entorno
 □ Python 3.12.x instalado y verificable con `python3 --version`
 □ `uv` instalado y verificable con `uv --version`
 □ Repositorio del Lab 0 aceptado y clonado desde GitHub Classroom
-□ Archivo .env creado con `cp .env.example .env` (MOCK_MODE=true viene por defecto)
+□ Archivo .env creado con `cp .env.example .env` 
 □ `uv sync --all-groups` ejecutado sin errores
-□ `bash scripts/verify_setup.sh` pasa los 22 chequeos
+□ `bash scripts/verify_setup.sh` pasa los chequeos
 □ Pull Request abierto con CI en verde
 ```
 

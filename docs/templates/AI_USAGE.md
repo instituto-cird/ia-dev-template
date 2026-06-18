@@ -2,8 +2,7 @@
 
 > **Instrucciones:** Completa este archivo documentando CADA instancia en que usaste
 > una herramienta de IA (Cursor, Claude Code, Copilot, ChatGPT, etc.) para tomar
-> una decisión de diseño o escribir código. Es un entregable obligatorio para ambos
-> tracks. La defensa puede incluir preguntas sobre cualquier entrada de este registro.
+> una decisión de diseño o escribir código. Es un entregable obligatorio para todo el curso.
 >
 > **Regla:** Si la IA lo sugirió y tú lo aceptaste sin cambios, documéntalo.
 > Si la IA lo sugirió y tú lo modificaste, documenta ambas versiones.
@@ -14,9 +13,7 @@
 ## Resumen del proyecto
 
 **Nombre del proyecto:**
-**Track:** [ ] Track A — API End-to-End   [ ] Track B — Agente/Orquestación
-**Estudiante:**
-**Período:** Módulo ___ | Semanas ___
+**Estudiante/s:**
 
 ---
 
@@ -71,10 +68,7 @@ Responde al finalizar el proyecto (mínimo 100 palabras):
 
 3. **¿Hubo alguna sugerencia de la IA que rechazaste completamente?** ¿Cuál fue tu razonamiento?
 
-4. **¿Cómo cambió tu flujo de trabajo usar IA vs no usarla?** ¿Fuiste más rápido? ¿Cometiste errores distintos?
+4. **¿Cómo cambió tu flujo de trabajo al usar IA vs no usarla?** ¿Fuiste más rápido? ¿Cometiste errores distintos?
 
 5. **Completa esta frase:** "Como Agent Manager, el mayor riesgo de usar IA sin supervisión en este proyecto habría sido..."
 
----
-
-*Este documento es evaluado como parte del criterio "Dominio del proceso" (20% de la nota final).*

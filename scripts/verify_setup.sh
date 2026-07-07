@@ -56,6 +56,22 @@ warn() {
   fi
 }
 
+# Detecta Python 3.12+ en Linux, macOS y Windows/MINGW64
+# Prueba python3, python y py (launcher de Windows) en ese orden.
+python_ok() {
+  for cmd in python3 python py; do
+    if command -v "$cmd" >/dev/null 2>&1; then
+      ver=$("$cmd" --version 2>&1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
+      major=$(echo "$ver" | cut -d. -f1)
+      minor=$(echo "$ver" | cut -d. -f2)
+      if [[ "$major" -eq 3 && "$minor" -ge 12 ]]; then
+        return 0
+      fi
+    fi
+  done
+  return 1
+}
+
 echo ""
 echo "${BLUE}══════════════════════════════════════════════════════════════════${RESET}"
 echo "${BLUE}  Diplomado IA — Verificación de entorno${RESET}"
@@ -64,7 +80,7 @@ echo ""
 
 # ─── 1. Herramientas del sistema ─────────────────────────────────────────────
 echo "${BLUE}1. Herramientas del sistema${RESET}"
-check "Python 3.12 instalado"                                                "python3 --version | grep -qE '3\.(1[2-9]|[2-9][0-9])'"        "Instalar Python 3.12+ (ver docs/nivelacion/00_python_essentials.md)"
+check "Python 3.12 instalado"                                                "python_ok"                                                      "Instalar Python 3.12+ (ver docs/nivelacion/00_python_essentials.md)"
 check "Git instalado"                                                        "git --version"                                                  "brew install git / apt install git"
 check "uv instalado"                                                         "uv --version"                                                   "curl -LsSf https://astral.sh/uv/install.sh | sh"
 warn "Docker instalado (opcional para M0-M4)"                                "docker --version"                                               "Docker no es obligatorio. Recomendado para M5"

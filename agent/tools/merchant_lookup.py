@@ -30,8 +30,10 @@ def _load_merchants() -> dict[str, Any]:
             with _DATA_FILE.open(encoding="utf-8") as f:
                 data = json.load(f)
             _CACHE = {m["merchant_id"]: m for m in data.get("merchants", [])}
-        except Exception as e:
-            print(f"WARNING: no se pudo cargar merchants_sample.json, el lookup fallará: {e}")
+        except FileNotFoundError:
+            print("WARNING: no se pudo cargar merchants_sample.json, el lookup fallará: archivo no encontrado")
+        except json.JSONDecodeError:
+            print("WARNING: no se pudo cargar merchants_sample.json, el lookup fallará: formato JSON inválido")
     return _CACHE
 
 

@@ -41,9 +41,7 @@
 ## Resumen del proyecto
 
 **Nombre del proyecto:**
-**Track:** [ ] Track A — API End-to-End   [ ] Track B — Agente/Orquestación
-**Estudiante:**
-**Período:** Módulo ___ | Semanas ___
+**Estudiante/s:**
 
 ---
 
@@ -98,10 +96,7 @@ Responde al finalizar el proyecto (mínimo 100 palabras):
 
 3. **¿Hubo alguna sugerencia de la IA que rechazaste completamente?** ¿Cuál fue tu razonamiento?
 
-4. **¿Cómo cambió tu flujo de trabajo usar IA vs no usarla?** ¿Fuiste más rápido? ¿Cometiste errores distintos?
+4. **¿Cómo cambió tu flujo de trabajo al usar IA vs no usarla?** ¿Fuiste más rápido? ¿Cometiste errores distintos?
 
 5. **Completa esta frase:** "Como Agent Manager, el mayor riesgo de usar IA sin supervisión en este proyecto habría sido..."
 
----
-
-*Este documento es evaluado como parte del criterio "Dominio del proceso" (20% de la nota final).*

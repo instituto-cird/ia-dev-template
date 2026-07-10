@@ -3,15 +3,11 @@ import os
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 # Carga variables de entorno desde .env (no falla si .env no existe)
 load_dotenv()
 
-# 🚨 BUG 1: API Key hardcodeada — la IA generó esto cuando le pedimos
-# "configurá el cliente de OpenAI con la key del proyecto" sin darle más contexto.
-# Esto NUNCA debe subirse a un repo.
-OPENAI_API_KEY = "sk-proj-abc123def456ghi789jkl012mno345pqr678stu901vwx234yz"
 
 # Metadatos para la documentación automática (OpenAPI)
 app = FastAPI(
@@ -22,8 +18,8 @@ app = FastAPI(
 
 # Configuración de CORS — orígenes explícitos para no romper el spec de browsers.
 _default_origins = [
-    "http://localhost:8501",   # Streamlit frontend
-    "http://localhost:3000",   # React/Vite dev server
+    "http://localhost:8501",  # Streamlit frontend
+    "http://localhost:3000",  # React/Vite dev server
     "http://127.0.0.1:8501",
     "http://127.0.0.1:3000",
 ]
@@ -41,9 +37,9 @@ app.add_middleware(
 
 # --- Modelos (Pydantic) ---
 class HealthResponse(BaseModel):
-    status: str
-    version: str
-    module: str
+    status: str = Field(..., min_length=1)
+    version: str = Field(..., min_length=1)
+    module: str = Field(..., min_length=1)
 
 
 # --- Endpoints ---

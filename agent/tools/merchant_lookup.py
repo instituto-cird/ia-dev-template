@@ -12,6 +12,7 @@ retorna mensajes ERROR distinguibles.
 """
 
 import json
+import logging
 from pathlib import Path
 from typing import Any
 
@@ -26,12 +27,15 @@ def _load_merchants() -> dict[str, Any]:
         _CACHE = {}
         # 🚨 BUG 3: except-pass silencia errores reales (archivo corrupto,
         # permisos, disco lleno) sin dejar rastro.
+        logger = logging.getLogger(__name__)
         try:
             with _DATA_FILE.open(encoding="utf-8") as f:
                 data = json.load(f)
             _CACHE = {m["merchant_id"]: m for m in data.get("merchants", [])}
-        except Exception:
-            pass
+        except (FileNotFoundError, PermissionError, json.JSONDecodeError, OSError) as exc:
+            # Log and keep cache empty so callers receive a clear error message
+            logger.exception("Failed loading merchants data: %s", exc)
+            _CACHE = {}
     return _CACHE
 
 

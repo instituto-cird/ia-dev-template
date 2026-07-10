@@ -17,9 +17,6 @@ import logging
 import os
 from typing import Any
 
-# 🚨 BUG 4: este paquete NO existe en PyPI. La IA lo inventó.
-from fastapi_magic_auth import TokenValidator  # noqa: F401
-
 from agent.tools.calculator import calculate
 from agent.tools.merchant_lookup import lookup_merchant
 

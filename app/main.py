@@ -1,4 +1,3 @@
-# app/main.py
 import os
 
 from dotenv import load_dotenv
@@ -9,6 +8,7 @@ from pydantic import BaseModel, Field
 # Carga variables de entorno desde .env (no falla si .env no existe)
 load_dotenv()
 
+
 # Metadatos para la documentación automática (OpenAPI)
 app = FastAPI(
     title="AI Diplomado API",
@@ -17,12 +17,9 @@ app = FastAPI(
 )
 
 # Configuración de CORS — orígenes explícitos para no romper el spec de browsers.
-# El spec CORS prohíbe `allow_origins=["*"]` cuando `allow_credentials=True`.
-# Si necesitás agregar otro frontend, sumalo a esta lista o usá CORS_ORIGINS en .env.
 _default_origins = [
-    "http://localhost:8501",   # Streamlit frontend
-    "http://localhost:3000",   # React/Vite dev server (si lo usás)
-    "http://localhost:5173",   # Vite default
+    "http://localhost:8501",  # Streamlit frontend
+    "http://localhost:3000",  # React/Vite dev server
     "http://127.0.0.1:8501",
     "http://127.0.0.1:3000",
 ]
@@ -40,18 +37,9 @@ app.add_middleware(
 
 # --- Modelos (Pydantic) ---
 class HealthResponse(BaseModel):
-    """
-    Esquema de respuesta del health check.
-
-    Nota pedagógica: usamos `min_length=1` para mostrar el patrón de
-    validación con Pydantic Field. Un string vacío en un health check
-    es señal de que algo se rompió en la serialización — preferimos
-    fallar fuerte que reportar "status OK" con valor vacío.
-    """
-
-    status: str = Field(min_length=1)
-    version: str = Field(min_length=1, pattern=r"^\d+\.\d+\.\d+$")
-    module: str = Field(min_length=1)
+    status: str = Field(..., min_length=1)
+    version: str = Field(..., min_length=1)
+    module: str = Field(..., min_length=1)
 
 
 # --- Endpoints ---
@@ -69,7 +57,3 @@ async def health_check() -> HealthResponse:
         version="0.1.0",
         module="System",
     )
-
-
-# Aquí agregaremos más adelante los routers:
-# app.include_router(agent_router)

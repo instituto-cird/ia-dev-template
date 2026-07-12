@@ -67,7 +67,9 @@ def calculate(expression: str) -> str:
         Resultado como string, o mensaje de error si la expresion es invalida.
     """
     if not isinstance(expression, str):
-        return f"ERROR: 'expression' debe ser string, recibio {type(expression).__name__}"
+        return (
+            f"ERROR: 'expression' debe ser string, recibio {type(expression).__name__}"
+        )
 
     expression = expression.strip()
     if not expression:

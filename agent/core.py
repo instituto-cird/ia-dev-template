@@ -155,7 +155,9 @@ def run_agent(goal: str, llm_client: Any) -> AgentResult:
             )
 
         if action == "FINISH":
-            answer = action_input.get("answer", "El agente termino sin respuesta explicita.")
+            answer = action_input.get(
+                "answer", "El agente termino sin respuesta explicita."
+            )
             steps.append(AgentStep(step_num, thought, action, action_input, answer))
             return AgentResult(goal=goal, answer=answer, steps=steps)
 

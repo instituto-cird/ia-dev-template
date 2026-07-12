@@ -1,68 +1,75 @@
 """
 agent/tools/calculator.py — Herramienta de cálculo matemático.
 
-Una herramienta bien escrita tiene:
-    1. Docstring con descripcion, args y returns (el LLM lo usa para saber cómo llamarla).
-    2. Validación de entrada (no confíes en que el LLM pase los tipos correctos).
-    3. Manejo de errores explícito (nunca `except: pass`).
-    4. Tests propios en tests/test_tools.py.
+La evaluación se realiza con un parser AST seguro que solo permite
+expresiones aritméticas básicas con números y operadores +, -, *, /, **.
 """
 
 import ast
-import operator
 from typing import Any
 
-# Operadores permitidos — whitelist explícita, no eval() abierto
-_SAFE_OPS: dict[type, Any] = {
-    ast.Add: operator.add,
-    ast.Sub: operator.sub,
-    ast.Mult: operator.mul,
-    ast.Div: operator.truediv,
-    ast.Pow: operator.pow,
-    ast.USub: operator.neg,
-    ast.UAdd: operator.pos,
-}
+
+class SafeExpressionError(ValueError):
+    """Se lanza cuando la expresión contiene elementos no permitidos."""
 
 
-def _safe_eval(node: ast.expr) -> float:
-    """Evalua un nodo AST con operadores aritmeticos seguros."""
+def _evaluate_node(node: ast.AST) -> Any:
+    """Evalua de forma segura un nodo del AST de una expresión aritmética."""
     if isinstance(node, ast.Constant):
-        if isinstance(node.value, (int, float)):
-            return float(node.value)
-        raise ValueError(f"Tipo no permitido: {type(node.value)}")
-    if isinstance(node, ast.BinOp):
-        op_type = type(node.op)
-        if op_type not in _SAFE_OPS:
-            raise ValueError(f"Operador no permitido: {op_type.__name__}")
-        left = _safe_eval(node.left)
-        right = _safe_eval(node.right)
-        return _SAFE_OPS[op_type](left, right)
+        if isinstance(node.value, (int, float)) and not isinstance(node.value, bool):
+            return node.value
+        raise SafeExpressionError("solo se permiten números")
+
     if isinstance(node, ast.UnaryOp):
-        op_type = type(node.op)
-        if op_type not in _SAFE_OPS:
-            raise ValueError(f"Operador unario no permitido: {op_type.__name__}")
-        return _SAFE_OPS[op_type](_safe_eval(node.operand))
-    raise ValueError(f"Expresion no soportada: {type(node).__name__}")
+        operand = _evaluate_node(node.operand)
+        if not isinstance(operand, (int, float)) or isinstance(operand, bool):
+            raise SafeExpressionError("operando no numérico")
+        if isinstance(node.op, ast.UAdd):
+            return +operand
+        if isinstance(node.op, ast.USub):
+            return -operand
+        raise SafeExpressionError("operador unario no permitido")
+
+    if isinstance(node, ast.BinOp):
+        left = _evaluate_node(node.left)
+        right = _evaluate_node(node.right)
+        if not isinstance(left, (int, float)) or isinstance(left, bool):
+            raise SafeExpressionError("operando izquierdo no numérico")
+        if not isinstance(right, (int, float)) or isinstance(right, bool):
+            raise SafeExpressionError("operando derecho no numérico")
+
+        if isinstance(node.op, ast.Add):
+            return left + right
+        if isinstance(node.op, ast.Sub):
+            return left - right
+        if isinstance(node.op, ast.Mult):
+            return left * right
+        if isinstance(node.op, ast.Div):
+            if right == 0:
+                raise ZeroDivisionError("division por cero")
+            return left / right
+        if isinstance(node.op, ast.Pow):
+            return left**right
+        raise SafeExpressionError("operador binario no permitido")
+
+    raise SafeExpressionError("expresión no permitida")
 
 
 def calculate(expression: str) -> str:
     """
-    Evalua una expresion matematica de forma segura (sin usar eval()).
+    Evalua una expresion matematica.
 
     Args:
         expression: Expresion aritmetica en texto.
                     Soporta: +, -, *, /, ** y parentesis.
-                    Ejemplos: "42 * 7", "(100 + 50) / 3", "2 ** 10"
 
     Returns:
         Resultado como string, o mensaje de error si la expresion es invalida.
-
-    Uso desde el agente:
-        action: "calculate"
-        action_input: {"expression": "1500 * 1.08"}
     """
     if not isinstance(expression, str):
-        return f"ERROR: 'expression' debe ser string, recibio {type(expression).__name__}"
+        return (
+            f"ERROR: 'expression' debe ser string, recibio {type(expression).__name__}"
+        )
 
     expression = expression.strip()
     if not expression:
@@ -70,14 +77,17 @@ def calculate(expression: str) -> str:
 
     try:
         tree = ast.parse(expression, mode="eval")
-        result = _safe_eval(tree.body)
-        # Formateo limpio: entero si no hay decimales significativos
-        if result == int(result):
-            return str(int(result))
-        return f"{result:.6g}"
+        result: Any = _evaluate_node(tree.body)
+        if isinstance(result, (int, float)) and not isinstance(result, bool):
+            if result == int(result):
+                return str(int(result))
+            return f"{result:.6g}"
+        return f"ERROR: resultado no es numerico: {type(result).__name__}"
     except ZeroDivisionError:
         return "ERROR: division por cero"
-    except ValueError as e:
-        return f"ERROR: {e}"
-    except SyntaxError:
-        return f"ERROR: expresion invalida: '{expression}'"
+    except SyntaxError as exc:
+        return f"ERROR: sintaxis invalida: {exc.msg}"
+    except SafeExpressionError as exc:
+        return f"ERROR: {exc}"
+    except ValueError as exc:
+        return f"ERROR: {exc}"

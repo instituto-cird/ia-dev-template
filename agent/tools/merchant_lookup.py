@@ -25,16 +25,24 @@ def _load_merchants() -> dict[str, Any]:
     global _CACHE  # noqa: PLW0603
     if _CACHE is None:
         _CACHE = {}
-        # 🚨 BUG 3: except-pass silencia errores reales (archivo corrupto,
-        # permisos, disco lleno) sin dejar rastro.
         logger = logging.getLogger(__name__)
         try:
             with _DATA_FILE.open(encoding="utf-8") as f:
                 data = json.load(f)
-            _CACHE = {m["merchant_id"]: m for m in data.get("merchants", [])}
-        except (FileNotFoundError, PermissionError, json.JSONDecodeError, OSError) as exc:
-            # Log and keep cache empty so callers receive a clear error message
-            logger.exception("Failed loading merchants data: %s", exc)
+            merchants = []
+            for merchant in data.get("merchants", []):
+                merchant_id = merchant.get("merchant_id")
+                if merchant_id:
+                    merchants.append((merchant_id, merchant))
+            _CACHE = {merchant_id: merchant for merchant_id, merchant in merchants}
+        except FileNotFoundError:
+            logger.error("Merchant data file not found: %s", _DATA_FILE)
+            _CACHE = {}
+        except json.JSONDecodeError:
+            logger.exception("Failed to parse merchant data file: %s", _DATA_FILE)
+            _CACHE = {}
+        except OSError:
+            logger.exception("I/O error while loading merchant data: %s", _DATA_FILE)
             _CACHE = {}
     return _CACHE
 

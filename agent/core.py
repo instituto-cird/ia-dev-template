@@ -42,14 +42,8 @@ TOOL_REGISTRY: dict[str, Any] = {
 class AgentStep:
     """Representa un paso del ciclo ReAct."""
 
-    def __init__(
-        self,
-        step: int,
-        thought: str,
-        action: str,
-        action_input: dict[str, Any],
-        observation: str,
-    ) -> None:
+    def __init__(self, step: int, thought: str, action: str,
+                 action_input: dict[str, Any], observation: str) -> None:
         self.step = step
         self.thought = thought
         self.action = action
@@ -69,9 +63,8 @@ class AgentStep:
 class AgentResult:
     """Resultado final de una ejecución del agente."""
 
-    def __init__(
-        self, goal: str, answer: str, steps: list[AgentStep], approved: bool = True
-    ) -> None:
+    def __init__(self, goal: str, answer: str, steps: list[AgentStep],
+                 approved: bool = True) -> None:
         self.goal = goal
         self.answer = answer
         self.steps = steps

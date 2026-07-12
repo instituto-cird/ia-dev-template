@@ -8,6 +8,9 @@ from pydantic import BaseModel, Field
 # Carga variables de entorno desde .env (no falla si .env no existe)
 load_dotenv()
 
+# La API key es opcional en este template para permitir importar la app
+# en tests/local sin depender de un secreto externo.
+API_KEY = os.getenv("OPENAI_API_KEY", "sk-mock-key-123")
 
 # Metadatos para la documentación automática (OpenAPI)
 app = FastAPI(
@@ -18,8 +21,8 @@ app = FastAPI(
 
 # Configuración de CORS — orígenes explícitos para no romper el spec de browsers.
 _default_origins = [
-    "http://localhost:8501",  # Streamlit frontend
-    "http://localhost:3000",  # React/Vite dev server
+    "http://localhost:8501",   # Streamlit frontend
+    "http://localhost:3000",   # React/Vite dev server
     "http://127.0.0.1:8501",
     "http://127.0.0.1:3000",
 ]
@@ -37,9 +40,9 @@ app.add_middleware(
 
 # --- Modelos (Pydantic) ---
 class HealthResponse(BaseModel):
-    status: str = Field(..., min_length=1)
-    version: str = Field(..., min_length=1)
-    module: str = Field(..., min_length=1)
+    status: str = Field(min_length=1)
+    version: str = Field(min_length=1)
+    module: str = Field(min_length=1)
 
 
 # --- Endpoints ---

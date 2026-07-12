@@ -1,48 +1,71 @@
+"""
+agent/tools/calculator.py — Herramienta de cálculo matemático.
+
+La evaluación se realiza con un parser AST seguro que solo permite
+expresiones aritméticas básicas con números y operadores +, -, *, /, **.
+"""
+
 import ast
-import operator as op
 from typing import Any
 
-_ALLOWED_BINOPS = {
-    ast.Add: op.add,
-    ast.Sub: op.sub,
-    ast.Mult: op.mul,
-    ast.Div: op.truediv,
-    ast.Pow: op.pow,
-}
 
-_ALLOWED_UNARYOPS = {
-    ast.UAdd: lambda x: x,
-    ast.USub: lambda x: -x,
-}
+class SafeExpressionError(ValueError):
+    """Se lanza cuando la expresión contiene elementos no permitidos."""
 
 
-def _eval_ast(node: ast.AST) -> float:
-    if isinstance(node, ast.Expression):
-        return _eval_ast(node.body)
-    if isinstance(node, ast.BinOp):
-        if type(node.op) not in _ALLOWED_BINOPS:
-            raise ValueError("operador no permitido")
-        left = _eval_ast(node.left)
-        right = _eval_ast(node.right)
-        return float(_ALLOWED_BINOPS[type(node.op)](left, right))
+def _evaluate_node(node: ast.AST) -> Any:
+    """Evalua de forma segura un nodo del AST de una expresión aritmética."""
+    if isinstance(node, ast.Constant):
+        if isinstance(node.value, (int, float)) and not isinstance(node.value, bool):
+            return node.value
+        raise SafeExpressionError("solo se permiten números")
+
     if isinstance(node, ast.UnaryOp):
-        if type(node.op) not in _ALLOWED_UNARYOPS:
-            raise ValueError("operador unario no permitido")
-        return float(_ALLOWED_UNARYOPS[type(node.op)](_eval_ast(node.operand)))
-    if isinstance(node, ast.Constant):  # Python 3.8+
-        val = node.value
-        if isinstance(val, (int, float)):
-            return float(val)
-        raise ValueError("constante no numerica")
-    if isinstance(node, ast.Num):  # older AST node
-        val = node.n
-        if isinstance(val, (int, float)):
-            return float(val)
-        raise ValueError("constante no numerica")
-    raise ValueError(f"nodo no permitido: {type(node).__name__}")
+        operand = _evaluate_node(node.operand)
+        if not isinstance(operand, (int, float)) or isinstance(operand, bool):
+            raise SafeExpressionError("operando no numérico")
+        if isinstance(node.op, ast.UAdd):
+            return +operand
+        if isinstance(node.op, ast.USub):
+            return -operand
+        raise SafeExpressionError("operador unario no permitido")
+
+    if isinstance(node, ast.BinOp):
+        left = _evaluate_node(node.left)
+        right = _evaluate_node(node.right)
+        if not isinstance(left, (int, float)) or isinstance(left, bool):
+            raise SafeExpressionError("operando izquierdo no numérico")
+        if not isinstance(right, (int, float)) or isinstance(right, bool):
+            raise SafeExpressionError("operando derecho no numérico")
+
+        if isinstance(node.op, ast.Add):
+            return left + right
+        if isinstance(node.op, ast.Sub):
+            return left - right
+        if isinstance(node.op, ast.Mult):
+            return left * right
+        if isinstance(node.op, ast.Div):
+            if right == 0:
+                raise ZeroDivisionError("division por cero")
+            return left / right
+        if isinstance(node.op, ast.Pow):
+            return left**right
+        raise SafeExpressionError("operador binario no permitido")
+
+    raise SafeExpressionError("expresión no permitida")
 
 
 def calculate(expression: str) -> str:
+    """
+    Evalua una expresion matematica.
+
+    Args:
+        expression: Expresion aritmetica en texto.
+                    Soporta: +, -, *, /, ** y parentesis.
+
+    Returns:
+        Resultado como string, o mensaje de error si la expresion es invalida.
+    """
     if not isinstance(expression, str):
         return (
             f"ERROR: 'expression' debe ser string, recibio {type(expression).__name__}"
@@ -53,26 +76,18 @@ def calculate(expression: str) -> str:
         return "ERROR: expresion vacia"
 
     try:
-        parsed = ast.parse(expression, mode="eval")
-
-        # Rechazar cualquier nodo peligrosamente dinámico (calls, names, attributes, subscripts, etc.)
-        for n in ast.walk(parsed):
-            if isinstance(
-                n, (ast.Call, ast.Name, ast.Attribute, ast.Subscript, ast.Lambda)
-            ):
-                raise ValueError("expresion contiene elementos no permitidos")
-
-        result_any: Any = _eval_ast(parsed)
-
-        if isinstance(result_any, (int, float)):
-            result = float(result_any)
+        tree = ast.parse(expression, mode="eval")
+        result: Any = _evaluate_node(tree.body)
+        if isinstance(result, (int, float)) and not isinstance(result, bool):
             if result == int(result):
                 return str(int(result))
             return f"{result:.6g}"
-        return f"ERROR: resultado no es numerico: {type(result_any).__name__}"
+        return f"ERROR: resultado no es numerico: {type(result).__name__}"
     except ZeroDivisionError:
         return "ERROR: division por cero"
-    except SyntaxError as e:
-        return f"ERROR: {e}"
-    except ValueError as e:
-        return f"ERROR: {e}"
+    except SyntaxError as exc:
+        return f"ERROR: sintaxis invalida: {exc.msg}"
+    except SafeExpressionError as exc:
+        return f"ERROR: {exc}"
+    except ValueError as exc:
+        return f"ERROR: {exc}"

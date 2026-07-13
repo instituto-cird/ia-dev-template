@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 # Carga variables de entorno desde .env (no falla si .env no existe)
 load_dotenv()
@@ -42,7 +42,7 @@ app.add_middleware(
 
 # --- Modelos (Pydantic) ---
 class HealthResponse(BaseModel):
-    status: str
+    status: str = Field(..., min_length=1)
     version: str
     module: str
 

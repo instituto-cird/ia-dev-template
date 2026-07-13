@@ -9,10 +9,8 @@ from pydantic import BaseModel
 # Carga variables de entorno desde .env (no falla si .env no existe)
 load_dotenv()
 
-# 🚨 BUG 1: API Key hardcodeada — la IA generó esto cuando le pedimos
-# "configurá el cliente de OpenAI con la key del proyecto" sin darle más contexto.
-# Esto NUNCA debe subirse a un repo.
-OPENAI_API_KEY = "sk-proj-abc123def456ghi789jkl012mno345pqr678stu901vwx234yz"
+
+OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 
 # Metadatos para la documentación automática (OpenAPI)
 app = FastAPI(

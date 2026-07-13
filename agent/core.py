@@ -1,13 +1,6 @@
 """
 agent/core.py — Núcleo del Agente ReAct.
 
-🚨 BUG 4: la IA importó `fastapi_magic_auth.TokenValidator` cuando le pedimos
-"agregá validación de tokens al agente". Ese paquete NO EXISTE en PyPI. El modelo
-lo inventó porque suena plausible (existen "fastapi-utils", "fastapi-jwt-auth",
-etc.). Si ejecutás este archivo, falla con ModuleNotFoundError al primer import.
-
-Este es el patrón "Ghost Dependency" del catálogo de AI Smells: import que parece
-real, no lo es, y solo se detecta al correr `uv sync` o al ejecutar.
 """
 
 from __future__ import annotations
@@ -16,9 +9,6 @@ import json
 import logging
 import os
 from typing import Any
-
-# 🚨 BUG 4: este paquete NO existe en PyPI. La IA lo inventó.
-from fastapi_magic_auth import TokenValidator  # noqa: F401
 
 from agent.tools.calculator import calculate
 from agent.tools.merchant_lookup import lookup_merchant

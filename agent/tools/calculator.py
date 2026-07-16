@@ -12,7 +12,7 @@ import ast
 import operator
 from typing import Any
 
-# Operadores permitidos — whitelist explícita, no eval() abierto
+# Operadores permitidos — whitelist explícita, no eval abierto
 _SAFE_OPS: dict[type, Any] = {
     ast.Add: operator.add,
     ast.Sub: operator.sub,
@@ -47,7 +47,7 @@ def _safe_eval(node: ast.expr) -> float:
 
 def calculate(expression: str) -> str:
     """
-    Evalua una expresion matematica de forma segura (sin usar eval()).
+    Evalua una expresion matematica de forma segura (sin usar eval).
 
     Args:
         expression: Expresion aritmetica en texto.

@@ -1,15 +1,14 @@
 """
 agent/tools/merchant_lookup.py — Herramienta de consulta de comerciantes LegacyPay.
 
-Carga los datos desde data/merchants_sample.json.
-En produccion, esto conectaria a la base de datos real de LegacyPay.
+🚨 BUG 3: la IA generó esta versión con `except Exception: pass` cuando le pedimos
+"hacer que el lookup no crashee si algo falla". El except-pass silencia TODOS los
+errores — un archivo corrupto, un permiso denegado, un disco lleno — y el sistema
+queda sin saber qué pasó. En producción esto es uno de los bugs más difíciles
+de debuggear porque NO deja rastro.
 
-Patron demostrado:
-    - Separacion entre la interfaz de la herramienta (lo que el agente llama)
-      y la fuente de datos (JSON, DB, API externa).
-    - Validacion de entrada con tipo explicito.
-    - Manejo de "not found" sin lanzar excepciones — el agente debe decidir
-      que hacer con un resultado vacio, no crashear.
+La versión correcta del template oficial captura excepciones específicas y
+retorna mensajes ERROR distinguibles.
 """
 
 import json
@@ -24,13 +23,17 @@ def _load_merchants() -> dict[str, Any]:
     """Carga y cachea los datos de comerciantes desde disco."""
     global _CACHE  # noqa: PLW0603
     if _CACHE is None:
-        if not _DATA_FILE.exists():
-            _CACHE = {}
-            return _CACHE
-        with _DATA_FILE.open(encoding="utf-8") as f:
-            data = json.load(f)
-        # Indexa por merchant_id para O(1) lookup
-        _CACHE = {m["merchant_id"]: m for m in data.get("merchants", [])}
+        _CACHE = {}
+        # 🚨 BUG 3: except-pass silencia errores reales (archivo corrupto,
+        # permisos, disco lleno) sin dejar rastro.
+        try:
+            with _DATA_FILE.open(encoding="utf-8") as f:
+                data = json.load(f)
+            _CACHE = {m["merchant_id"]: m for m in data.get("merchants", [])}
+        except FileNotFoundError:
+            print("WARNING: no se pudo cargar merchants_sample.json, el lookup fallará: archivo no encontrado")
+        except json.JSONDecodeError:
+            print("WARNING: no se pudo cargar merchants_sample.json, el lookup fallará: formato JSON inválido")
     return _CACHE
 
 
@@ -40,14 +43,9 @@ def lookup_merchant(merchant_id: str) -> str:
 
     Args:
         merchant_id: ID del comerciante en formato MCHT-NNNNN.
-                     Ejemplos: "MCHT-00001", "MCHT-00042"
 
     Returns:
         JSON string con los datos del comerciante, o mensaje de error si no existe.
-
-    Uso desde el agente:
-        action: "lookup_merchant"
-        action_input: {"merchant_id": "MCHT-00003"}
     """
     if not isinstance(merchant_id, str):
         return f"ERROR: 'merchant_id' debe ser string, recibio {type(merchant_id).__name__}"
@@ -59,13 +57,12 @@ def lookup_merchant(merchant_id: str) -> str:
     merchants = _load_merchants()
 
     if not merchants:
-        return "ERROR: base de datos de comerciantes no disponible (data/merchants_sample.json)"
+        return "ERROR: base de datos de comerciantes no disponible"
 
     merchant = merchants.get(merchant_id)
     if merchant is None:
         return f"NOT_FOUND: comerciante '{merchant_id}' no existe en el sistema"
 
-    # Retorna solo los campos relevantes para el agente (no datos sensibles)
     safe_fields = {
         "merchant_id": merchant.get("merchant_id"),
         "name": merchant.get("name"),

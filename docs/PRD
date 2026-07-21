@@ -1,1 +1,16 @@
+TAREA
+Generá un PRD con estas secciones:
+1. Visión y problema.
+2. Alcance incluido y fuera de alcance.
+3. Usuarios, entidades y reglas de negocio.
+4. Historias de usuario con criterios de aceptación.
+5. Restricciones no funcionales.
+6. Preguntas abiertas.
+
+RESTRICCIONES
+- No inventes campos, SLA, volúmenes, reglas regulatorias ni políticas internas.
+- Marcá como PREGUNTA ABIERTA todo dato no definido.
+- Separá hechos proporcionados de propuestas.
+- No conviertas automáticamente cada sustantivo en una entidad.
+- No propongas cambios de arquitectura o dependencias sin justificarlos.
 

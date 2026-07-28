@@ -22,6 +22,7 @@
 - ¿Cuál es el mecanismo de autorización de comercio autorizado (tokens, roles, scopes)?
 - ¿Existen requisitos de rendimiento, disponibilidad o seguridad específicos para esta funcionalidad? |
 ---
+>PROMPT UTILIZADO
 
 OBJETIVO
 Preparar un primer borrador de PRD para el historial de transacciones de LegacyPay.

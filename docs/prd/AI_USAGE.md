@@ -60,3 +60,33 @@ Este documento registra la trazabilidad y la auditoría humana aplicada a cada a
 **Pregunta todavía abierta:** 
 - ¿Se requiere una entidad separada para el manejo de reembolsos/devoluciones o se tratarán como un estado de transacción en la v1?
 
+---
+
+## Entrada 3 · 21-jul-2026 · Diagrama de Secuencia
+
+**Objetivo:** Generar el diagrama de secuencia Mermaid para la consulta paginada de historial de transacciones basada en `PRD.md` (HU-01).
+
+**Herramienta y modelo:** GitHub Copilot / LLM Assistant.
+
+**Contexto proporcionado:** 
+- Prompt 3 con lista explícita de participantes (Comercio, API, Auth, Service, DB), exigencia de flujo feliz, consulta paginada y al menos un flujo alternativo de error.
+
+**Salida obtenida:** 
+- Diagrama Mermaid inicial propuesto en `sequence_historial.md` con flujo síncrono lineal sin validación explícita de seguridad previa.
+
+**Problema detectado:** 
+1. **Omisión de componente de seguridad:** La IA conectó la API directamente con el servicio de base de datos sin consultar al componente de `Autorización`.
+2. **Falta de flujos de excepción:** El modelo únicamente graficó el camino feliz (200 OK), ignorando la validación del límite de 90 días.
+
+**Cambio realizado por mí:** 
+1. Reordené el diagrama para incluir el `Servicio de Autorización` como paso obligatorio antes de consultar el servicio de dominio.
+2. Agregué los bloques alternativos (`alt / else`) para capturar las respuestas de error HTTP 401 (token inválido) y HTTP 400 (exceso del rango de 90 días).
+3. Aseguré que los nombres de los atributos retornados coincidan con el modelo `erd.md`.
+
+**Evidencia o criterio utilizado:** 
+- Principio de Arquitectura Segura (Security by Design) y la regla RN-01 definida en `PRD.md`.
+
+**Pregunta todavía abierta:** 
+- ¿Cuál es la estrategia de manejo de timeouts cuando la base de datos tarda en responder consultas con filtros amplios?
+
+

@@ -35,3 +35,19 @@
 **Cambio realizado por mí:** Introduje los componentes `Validador de Autorización` y `Caso de Uso / Servicio (Historial)` para desacoplar las responsabilidades. Representé explícitamente el flujo alternativo de token inválido (401/403) al inicio del diagrama y la validación del filtro de 90 días retornando una excepción controlada (400 Bad Request) antes de la consulta al repositorio.
 **Criterio o evidencia utilizada:** Reglas de negocio del PRD (autorización previa y límites de filtros) y checklist de auditoría de secuencia.
 **Pregunta todavía abierta:** ¿Cómo debe propagarse el error de la base de datos hacia el cliente si el repositorio falla por tiempo de espera (timeout)?
+
+## Entrada 4 — ADR
+
+**Fecha:** 2026-07-28
+**Objetivo:** Redactar el ADR para decidir la estrategia de paginación del endpoint de historial de transacciones.
+**Herramienta y modelo:** Gemini 3.5 Flash (via Antigravity IDE)
+**Contexto proporcionado:** Contexto del volumen de transacciones de LegacyPay y la necesidad de auditabilidad y rendimiento.
+**Salida obtenida:** Borrador de ADR proponiendo paginación offset en V1 y cursores para V2, estructurado con trade-offs genéricos.
+**Problema detectado:** La sugerencia de la IA no contenía parámetros operativos específicos (como el límite máximo de registros por página) ni seguía con exactitud la nomenclatura de títulos requerida por la guía grupal (`Alternativas`, `Decisión propuesta`, `Consecuencias positivas`, `Consecuencias negativas`, `Evidencia pendiente`, `Condición de revisión`).
+**Cambio realizado por mí:** Modifiqué el ADR para definir que el tamaño por defecto de la página será de 20 y el máximo de 100 registros. Corregí la estructura de títulos y adapté la tabla de evaluación para que las alternativas de Offset y Cursor respondieran de forma honesta y medible a cada criterio arquitectónico.
+**Criterio o evidencia utilizada:** Restricciones de paginación en el PRD y checklist de auditoría del ADR.
+**Pregunta todavía abierta:** ¿Cómo impactará el ordenamiento por fecha de transacción en el rendimiento de la paginación por offset en la base de datos bajo alta concurrencia?
+
+## Reflexión final
+
+Durante este laboratorio, el uso de la IA aceleró significativamente la generación de esquemas lógicos y plantillas técnicas iniciales (ERD, Diagrama de Secuencia y ADR). Sin embargo, fue fundamental la intervención humana para auditar los resultados: acotar el alcance, eliminar supuestos no verificados, implementar capas explícitas de seguridad (como enmascaramiento y logs de auditoría) y adaptar los entregables a la estructura exacta de la guía grupal. La IA tiende a sobredimensionar soluciones y requiere una dirección humana rigurosa para alinearse con los requerimientos operativos reales de LegacyPay.

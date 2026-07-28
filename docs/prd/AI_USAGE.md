@@ -23,3 +23,15 @@
 **Cambio realizado por mí:** Creé tablas separadas para `DATOS_PAGO_ENMASCARADO` y `AUDITORIA_CONSULTA` para segregar datos sensibles y registrar auditorías de acceso. Añadí las secciones obligatorias del documento (`Propósito y alcance`, `Supuestos`, y `Preguntas abiertas`) en `erd.md`.
 **Criterio o evidencia utilizada:** Restricciones de no exposición de PAN/CVV en el PRD y checklist de auditoría del ERD.
 **Pregunta todavía abierta:** ¿Es necesario persistir los filtros aplicados en cada registro de auditoría o basta con un hash de los parámetros para optimizar espacio?
+
+## Entrada 3 — Diagrama de Secuencia
+
+**Fecha:** 2026-07-28
+**Objetivo:** Crear y auditar el diagrama de secuencia para la consulta del historial de transacciones.
+**Herramienta y modelo:** Gemini 3.5 Flash (via Antigravity IDE)
+**Contexto proporcionado:** Historias de usuario y criterios de aceptación definidos en `PRD_V1.md`.
+**Salida obtenida:** Un diagrama de secuencia básico que conectaba directamente el API Gateway con el repositorio de datos sin capas intermedias ni validaciones de negocio.
+**Problema detectado:** El flujo original de la IA omitía la validación de autorización explícita antes de consultar los datos y no representaba de forma secuencial la validación de los filtros (por ejemplo, el límite estricto de 90 días) como flujo de error `400 Bad Request`.
+**Cambio realizado por mí:** Introduje los componentes `Validador de Autorización` y `Caso de Uso / Servicio (Historial)` para desacoplar las responsabilidades. Representé explícitamente el flujo alternativo de token inválido (401/403) al inicio del diagrama y la validación del filtro de 90 días retornando una excepción controlada (400 Bad Request) antes de la consulta al repositorio.
+**Criterio o evidencia utilizada:** Reglas de negocio del PRD (autorización previa y límites de filtros) y checklist de auditoría de secuencia.
+**Pregunta todavía abierta:** ¿Cómo debe propagarse el error de la base de datos hacia el cliente si el repositorio falla por tiempo de espera (timeout)?

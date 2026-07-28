@@ -89,4 +89,34 @@ Este documento registra la trazabilidad y la auditoría humana aplicada a cada a
 **Pregunta todavía abierta:** 
 - ¿Cuál es la estrategia de manejo de timeouts cuando la base de datos tarda en responder consultas con filtros amplios?
 
+---
+
+## Entrada 4 · 21-jul-2026 · Registro de Decisión de Arquitectura (ADR)
+
+**Objetivo:** Elaborar el borrador del ADR 0001 para seleccionar la estrategia de paginación del historial de transacciones en LegacyPay.
+
+**Herramienta y modelo:** GitHub Copilot / LLM Assistant.
+
+**Contexto proporcionado:** 
+- Prompt 4 con la restricción explícita de no inventar SLAs ni benchmarks no aprobados y evaluar alternativas bajo criterios de rendimiento, facilidad de implementación, UX y costo de cambio.
+
+**Salida obtenida:** 
+- Borrador inicial en `0001-paginacion.md` recomendando Keyset Pagination e inventando un SLA de respuesta menor a 50 ms y benchmarks no realizados.
+
+**Problema detectado:** 
+1. **Alucinación de métricas:** La IA inventó métricas de rendimiento y SLAs que no fueron aprobados ni probados en el proyecto.
+2. **Subestimación de fricción B2B:** El modelo priorizó la teoría de rendimiento sobre la usabilidad e integración práctica para los comercios en la v1.
+
+**Cambio realizado por mí:** 
+1. Eliminé todos los benchmarks e inventos de SLA.
+2. Cambié la decisión propuesta a **Paginación Basada en Offset** acotada a `page_size = 100` por facilidad de integración B2B y acotamiento a 90 días.
+3. Explicité las consecuencias negativas honestas (posible degradación en páginas muy profundas) y añadí la sección de "Evidencia Pendiente" (pruebas de carga) y las condiciones de revisión.
+
+**Evidencia o criterio utilizado:** 
+- Estándares del formato ADR profesional y la restricción explícita del prompt de no asumir SLAs sin evidencia previa.
+
+**Pregunta todavía abierta:** 
+- ¿Qué porcentaje de consultas efectivas de los comercios llegan a requerir una paginación superior a la página 50?
+
+
 

@@ -30,3 +30,33 @@ Este documento registra la trazabilidad y la auditoría humana aplicada a cada a
 
 **Pregunta todavía abierta:** 
 - ¿Existen roles diferenciados dentro del comercio (ej. Operador vs Administrador) con permisos de lectura restringidos?
+
+---
+
+## Entrada 2 · 21-jul-2026 · Modelo Entidad-Relación (ERD)
+
+**Objetivo:** Generar un modelo entidad-relación lógico simplificado en formato Mermaid a partir de `PRD.md`.
+
+**Herramienta y modelo:** GitHub Copilot / LLM Assistant.
+
+**Contexto proporcionado:** 
+- Prompt 2 con restricciones de no convertir sustantivos simples en tablas, no incluir PAN completo ni CVV, e incluir supuestos explícitos.
+
+**Salida obtenida:** 
+- Diagrama Mermaid inicial propuesto en `erd.md` con entidades `COMERCIO`, `TRANSACCION`, `ESTADO_TRANSACCION` y `EXPORTACION`.
+
+**Problema detectado:** 
+1. **Entidad fuera de alcance:** La IA generó la tabla `EXPORTACION` derivándola de la alucinación previa del PRD_v1.
+2. **Normalización excesiva:** La IA aisló el estado en la tabla `ESTADO_TRANSACCION`, agregando complejidad innecesaria para un atributo enumerable simple.
+
+**Cambio realizado por mí:** 
+1. Eliminé por completo la entidad `EXPORTACION`.
+2. Convertí `estado_transaccion` en un atributo tipo cadena/enum dentro de la tabla `TRANSACCION`.
+3. Verifiqué que solo se exponga `masked_pan` y redacté los supuestos de cardinalidad `1:N`.
+
+**Evidencia o criterio utilizado:** 
+- El principio de diseño ágil y las instrucciones del prompt prohíben sobre-diseños de base de datos para funcionalidades básicas de consulta filtrada.
+
+**Pregunta todavía abierta:** 
+- ¿Se requiere una entidad separada para el manejo de reembolsos/devoluciones o se tratarán como un estado de transacción en la v1?
+

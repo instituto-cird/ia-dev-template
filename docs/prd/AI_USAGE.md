@@ -43,3 +43,14 @@ Mantuve las preguntas porque ayudan a identificar requisitos pendientes.
 **Criterio o evidencia utilizada:**
 
 Verifiqué que las preguntas estuvieran relacionadas con el historial de transacciones y el PRD.
+
+## Entrada 3 — Secuencia
+
+**Problema detectado:**
+Copilot agregó un flujo alternativo de error.
+
+**Cambio realizado por mí:**
+Lo mantuve porque la guía solicita contemplar escenarios de falla.
+
+**Criterio o evidencia utilizada:**
+Verifiqué que la autorización ocurra antes de consultar los datos.

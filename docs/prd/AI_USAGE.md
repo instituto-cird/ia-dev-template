@@ -65,3 +65,7 @@ Elegí mantener la paginación por offset para la primera versión por ser más 
 
 **Criterio o evidencia utilizada:**
 Comparé las ventajas y desventajas de ambas opciones y prioricé la facilidad de implementación y mantenimiento.
+
+## Revisión final
+
+Verifiqué la consistencia entre PRD, ERD, diagrama de secuencia y ADR. Las preguntas abiertas permanecen visibles y los artefactos mantienen trazabilidad con la funcionalidad de historial de transacciones.

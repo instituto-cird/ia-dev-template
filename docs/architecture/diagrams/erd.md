@@ -33,5 +33,8 @@ erDiagram
 
 ## Preguntas abiertas
 
-- Estados válidos para las transacciones.
-- Formato definitivo de filtros.
+- ¿Qué estados válidos deben mostrarse en el historial?
+
+- ¿Qué filtros deben soportarse: fecha, comercio, estado, moneda o combinación de ellos?
+
+- ¿El historial debe incluir solo transacciones finalizadas o también aquellas en proceso o rechazadas?

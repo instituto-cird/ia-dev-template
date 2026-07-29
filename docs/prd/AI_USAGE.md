@@ -54,3 +54,14 @@ Lo mantuve porque la guía solicita contemplar escenarios de falla.
 
 **Criterio o evidencia utilizada:**
 Verifiqué que la autorización ocurra antes de consultar los datos.
+
+## Entrada 4 — ADR
+
+**Problema detectado:**
+Copilot propuso dos alternativas de paginación para el historial de transacciones.
+
+**Cambio realizado por mí:**
+Elegí mantener la paginación por offset para la primera versión por ser más simple de implementar.
+
+**Criterio o evidencia utilizada:**
+Comparé las ventajas y desventajas de ambas opciones y prioricé la facilidad de implementación y mantenimiento.

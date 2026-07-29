@@ -1,0 +1,71 @@
+# AI_USAGE — Lab 2
+
+## Entrada 1 — PRD
+
+**Fecha:** 28/07/2026
+
+**Objetivo:**
+Generar un documento PRD preliminar para Historial de Transacciones de LegacyPay.
+
+**Herramienta y modelo:**
+GitHub Copilot.
+
+**Contexto proporcionado:**
+Se proporcionó un prompt para generar un PRD basado en la funcionalidad de consulta de transacciones.
+
+**Salida obtenida:**
+La IA generó un PRD con historias de usuario, criterios de aceptación y preguntas abiertas.
+
+**Problema detectado:**
+Algunas definiciones del negocio no estaban confirmadas.
+
+**Cambio realizado por mí:**
+Revisé el contenido generado y mantuve visibles las preguntas abiertas para validación posterior.
+
+**Criterio o evidencia utilizada:**
+Guía del laboratorio y revisión manual del contenido.
+
+**Pregunta todavía abierta:**
+Definir estados válidos y tamaño de página por defecto.
+
+## Entrada 2 — ERD
+
+**Problema detectado:**
+
+Copilot agregó preguntas abiertas sobre filtros y estados de transacción.
+
+
+**Cambio realizado por mí:**
+
+Mantuve las preguntas porque ayudan a identificar requisitos pendientes.
+
+ 
+**Criterio o evidencia utilizada:**
+
+Verifiqué que las preguntas estuvieran relacionadas con el historial de transacciones y el PRD.
+
+## Entrada 3 — Secuencia
+
+**Problema detectado:**
+Copilot agregó un flujo alternativo de error.
+
+**Cambio realizado por mí:**
+Lo mantuve porque la guía solicita contemplar escenarios de falla.
+
+**Criterio o evidencia utilizada:**
+Verifiqué que la autorización ocurra antes de consultar los datos.
+
+## Entrada 4 — ADR
+
+**Problema detectado:**
+Copilot propuso dos alternativas de paginación para el historial de transacciones.
+
+**Cambio realizado por mí:**
+Elegí mantener la paginación por offset para la primera versión por ser más simple de implementar.
+
+**Criterio o evidencia utilizada:**
+Comparé las ventajas y desventajas de ambas opciones y prioricé la facilidad de implementación y mantenimiento.
+
+## Revisión final
+
+Verifiqué la consistencia entre PRD, ERD, diagrama de secuencia y ADR. Las preguntas abiertas permanecen visibles y los artefactos mantienen trazabilidad con la funcionalidad de historial de transacciones.

@@ -13,7 +13,7 @@
 | **Salida obtenida** | Se creo un documento en PRD_v1.md |
 | **Problema detectado** | Ningun problema detectado que amerite una correccion en el promp |
 | **Cambio realizado por mí** | Ninguna |
-| **Criterio o evidencia utilizada** |  |
+| **Criterio o evidencia utilizada** | Genero solo 2 entidades, podria ser poca |
 | **Pregunta todavía abierta** | 
 - ¿Cuál es el esquema exacto de los estados de transacción admitidos?
 - ¿Cuál es el tamaño de página por defecto y los límites máximos de paginación?

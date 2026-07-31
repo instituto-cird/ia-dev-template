@@ -8,7 +8,7 @@ Este documento registra la trazabilidad y la auditoría humana aplicada a cada a
 
 **Objetivo:** Generar un primer borrador de PRD para la funcionalidad de Historial de Transacciones de LegacyPay.
 
-**Herramienta y modelo:** GitHub Copilot / LLM Assistant.
+**Herramienta y modelo:** Antigravity (Gemini de Google).
 
 **Contexto proporcionado:** 
 - Prompt 1 estructurado con hechos aprobados (LegacyPay como pasarela B2B, rango de 90 días, filtros por fecha, estado y monto, paginación obligatoria, prohibición de exponer PAN completo o CVV, datos sintéticos).
@@ -37,7 +37,7 @@ Este documento registra la trazabilidad y la auditoría humana aplicada a cada a
 
 **Objetivo:** Generar un modelo entidad-relación lógico simplificado en formato Mermaid a partir de `PRD.md`.
 
-**Herramienta y modelo:** GitHub Copilot / LLM Assistant.
+**Herramienta y modelo:** Antigravity (Gemini de Google).
 
 **Contexto proporcionado:** 
 - Prompt 2 con restricciones de no convertir sustantivos simples en tablas, no incluir PAN completo ni CVV, e incluir supuestos explícitos.
@@ -66,7 +66,7 @@ Este documento registra la trazabilidad y la auditoría humana aplicada a cada a
 
 **Objetivo:** Generar el diagrama de secuencia Mermaid para la consulta paginada de historial de transacciones basada en `PRD.md` (HU-01).
 
-**Herramienta y modelo:** GitHub Copilot / LLM Assistant.
+**Herramienta y modelo:** Antigravity (Gemini de Google).
 
 **Contexto proporcionado:** 
 - Prompt 3 con lista explícita de participantes (Comercio, API, Auth, Service, DB), exigencia de flujo feliz, consulta paginada y al menos un flujo alternativo de error.
@@ -95,7 +95,7 @@ Este documento registra la trazabilidad y la auditoría humana aplicada a cada a
 
 **Objetivo:** Elaborar el borrador del ADR 0001 para seleccionar la estrategia de paginación del historial de transacciones en LegacyPay.
 
-**Herramienta y modelo:** GitHub Copilot / LLM Assistant.
+**Herramienta y modelo:** Antigravity (Gemini de Google).
 
 **Contexto proporcionado:** 
 - Prompt 4 con la restricción explícita de no inventar SLAs ni benchmarks no aprobados y evaluar alternativas bajo criterios de rendimiento, facilidad de implementación, UX y costo de cambio.

@@ -76,3 +76,58 @@ Eliminé la entidad `MERCHANT`, su identificador y la relación con `TRANSACTION
 
 **Pregunta todavía abierta:**  
 - ¿La vista debe soportar moneda explícita en el monto, o se asume una única moneda para este alcance?
+
+
+
+## Entrada 3 — ADR
+
+**Fecha:**  
+02/08/2026
+
+**Objetivo:**  
+Generar un primer borrador de un ADR para definir la estrategia de paginación del endpoint de historial de transacciones de LegacyPay.
+
+**Herramienta y modelo:**  
+Chat Visual Ask Auto
+
+**Contexto proporcionado:**  
+Prompt para generar el ADR
+Prepará un borrador de ADR para decidir la estrategia de paginación del endpoint de historial de transacciones de LegacyPay.
+
+CONTEXTO
+- La consulta puede crecer mucho por comercio.
+- El endpoint debe ser auditable.
+- La consulta debe ser paginada.
+- No inventes benchmarks ni SLA no aprobados.
+
+CRITERIOS
+- rendimiento bajo crecimiento de datos;
+- facilidad de implementación;
+- experiencia de usuario;
+- costo de cambio;
+- evidencia pendiente.
+
+FORMATO
+Markdown con: Contexto, Alternativas, Decisión propuesta, Consecuencias positivas, Consecuencias negativas, Evidencia pendiente y Condición de revisión.
+
+
+**Salida obtenida:**  
+La IA generó un ADR con el contexto, alternativas de paginación, una decisión propuesta, consecuencias positivas y negativas, evidencia pendiente y condición de revisión.
+
+**Problema detectado:**  
+La IA presentó como decisión definitiva la adopción de la paginación por cursor e incorporó propuestas no respaldadas por el contexto, como el particionado por comercio, límites por petición y afirmaciones de rendimiento sin evidencia técnica.
+
+**Cambio realizado por mí:**  
+Modifiqué la decisión propuesta para plantearla como una alternativa a evaluar y no como una decisión definitiva. Además, marqué el particionado por comercio como una propuesta de la IA, eliminé afirmaciones que no contaban con evidencia y reforcé la sección de evidencia pendiente para requerir una comparación objetiva entre la paginación por cursor y `offset/limit`.
+
+**Criterio o evidencia utilizada:**  
+Verifiqué que el ADR respondiera a las siguientes preguntas:
+- ¿Las alternativas son realmente diferentes?
+- ¿La decisión se relaciona con los criterios?
+- ¿Se inventaron benchmarks o tiempos?
+- ¿Incluye consecuencias negativas honestas?
+- ¿Se indica qué evidencia falta?
+- ¿Existe una condición concreta de revisión?
+
+**Pregunta todavía abierta:**  
+¿La estrategia de paginación por cursor ofrece ventajas suficientes frente a `offset/limit` para justificar su mayor complejidad en LegacyPay, o esta decisión debe validarse mediante pruebas antes de adoptarla?

@@ -24,8 +24,6 @@
 
 **Entidades:**
 * **Transacción:** Representación de un cobro o movimiento en la pasarela.
-* **Filtros:** Representación de los filtros aplicados a las transacciones.
-* **Paginación:** Representación de la paginación de los resultados.
 
 **Reglas de Negocio:**
 * **Hecho:** El horizonte de consulta de transacciones está estrictamente limitado a los últimos 90 días.

@@ -1,19 +1,13 @@
 """
 agent/tools/merchant_lookup.py — Herramienta de consulta de comerciantes LegacyPay.
-
-🚨 BUG 3: la IA generó esta versión con `except Exception: pass` cuando le pedimos
-"hacer que el lookup no crashee si algo falla". El except-pass silencia TODOS los
-errores — un archivo corrupto, un permiso denegado, un disco lleno — y el sistema
-queda sin saber qué pasó. En producción esto es uno de los bugs más difíciles
-de debuggear porque NO deja rastro.
-
-La versión correcta del template oficial captura excepciones específicas y
-retorna mensajes ERROR distinguibles.
 """
 
 import json
+import logging
 from pathlib import Path
 from typing import Any
+
+logger = logging.getLogger(__name__)
 
 _DATA_FILE = Path(__file__).parent.parent.parent / "data" / "merchants_sample.json"
 _CACHE: dict[str, Any] | None = None
@@ -24,14 +18,12 @@ def _load_merchants() -> dict[str, Any]:
     global _CACHE  # noqa: PLW0603
     if _CACHE is None:
         _CACHE = {}
-        # 🚨 BUG 3: except-pass silencia errores reales (archivo corrupto,
-        # permisos, disco lleno) sin dejar rastro.
         try:
             with _DATA_FILE.open(encoding="utf-8") as f:
                 data = json.load(f)
             _CACHE = {m["merchant_id"]: m for m in data.get("merchants", [])}
-        except Exception:
-            pass
+        except (FileNotFoundError, json.JSONDecodeError, KeyError, OSError) as e:
+            logger.warning("Error al cargar la base de datos de comerciantes (%s): %s", _DATA_FILE, e)
     return _CACHE
 
 

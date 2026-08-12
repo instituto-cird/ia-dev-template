@@ -1,4 +1,5 @@
 # ia-dev-template
+# Jessica Dahiana Armoa Miño
 
 Template oficial del **Diplomado: IA Aplicada al Desarrollo de Software**.
 

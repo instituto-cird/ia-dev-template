@@ -51,17 +51,17 @@
 
 | Campo | Detalle |
 |-------|---------|
-| **Fecha** | YYYY-MM-DD |
-| **Herramienta** | Cursor / Claude Code / Copilot / ChatGPT / Otro |
-| **Contexto** | ¿En qué parte del código estabas trabajando? (ej: "Escribiendo el endpoint POST /transactions") |
-| **Prompt exacto (o resumen)** | Copia el prompt que usaste, o un resumen fiel si fue muy largo |
-| **Sugerencia de la IA** | ¿Qué generó la IA? Incluye el fragmento de código relevante si es corto |
-| **Decisión tomada** | ¿Aceptaste? ¿Modificaste? ¿Rechazaste? ¿Por qué? |
-| **Impacto en el código** | Archivo(s) y función(es) afectadas |
+| **Fecha** | 2026-0-12 |
+| **Herramienta** | Antigravity + Gemini |
+| **Contexto** | Corrección de error de tipos en calculator.py, remoción de import fantasma en core.py y mejora del manejo de excepciones en merchant_lookup.py.|
+| **Prompt exacto (o resumen)** | Explicar error de tipos en calculator.py, corregir los AI Smells 
+(GHOST_IMPORT y EXCEPT_PASS), y reemplazar except Exception por excepciones específicas.|
+| **Sugerencia de la IA** | Usar isinstance para el narrowing de tipos, eliminar la dependencia falsa fastapi_magic_auth, agregar loggueo de errores en merchant_lookup.py y capturar la tupla de excepciones (ValueError, SyntaxError, TypeError, MemoryError, OverflowError). |
+| **Decisión tomada** | Aceptada y ajustada. Se agregó SyntaxError de forma explícita para evitar que expresiones con sintaxis inválida hicieran fallar las pruebas unitarias. |
+| **Impacto en el código** | calculator.py, core.py y merchant_lookup.py |
 
 **Razonamiento en tus palabras:**
-> Escribe aquí por qué la sugerencia era correcta (o incorrecta) desde tu perspectiva
-> como desarrollador. ¿Qué habrías hecho diferente sin la IA?
+> La IA identificó correctamente los patrones de smells y propuso soluciones idiomáticas en Python. La decisión de añadir SyntaxError fue mía, basándome en el conocimiento de que las pruebas unitarias podrían exponer casos con sintaxis inválida que no fueron contemplados inicialmente. |
 
 ---
 

@@ -72,4 +72,7 @@ async def health_check() -> HealthResponse:
 
 
 # Aquí agregaremos más adelante los routers:
-# app.include_router(agent_router)
+from app.routers.historial import router as historial_router
+
+
+app.include_router(historial_router)

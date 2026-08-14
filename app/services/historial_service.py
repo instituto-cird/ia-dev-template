@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
-from datetime import date
 import base64
+from datetime import date
+from typing import Any
 
 
 class HistorialService:
@@ -18,18 +18,16 @@ class HistorialService:
     def _encode_cursor(self, index: int) -> str:
         return base64.urlsafe_b64encode(str(index).encode()).decode()
 
-    def _decode_cursor(self, cursor: Optional[str]) -> int:
+    def _decode_cursor(self, cursor: str | None) -> int:
         if not cursor:
             return 0
         try:
             raw = base64.urlsafe_b64decode(cursor.encode()).decode()
             return int(raw)
-        
-        # TODO auditoria: excepcion muy general, deberíamos capturar ValueError, binascii.Error, UnicodeDecodeError específicamente
-        except Exception:
+        except ValueError:
             return 0
 
-    def get_historial(self, qp) -> Dict[str, Any]:
+    def get_historial(self, qp) -> dict[str, Any]:
         """Return data and pagination following a simple cursor model.
 
         qp: HistorialQueryParams instance
@@ -54,7 +52,7 @@ class HistorialService:
         #         t["pan"] = self._mask_pan(t.get("pan", ""))
 
         # Build response data (return shallow copies)
-        data: List[Dict[str, Any]] = [
+        data: list[dict[str, Any]] = [
             {
                 "id": t["id"],
                 "fecha": t["fecha"].isoformat(),

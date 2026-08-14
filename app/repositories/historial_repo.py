@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from datetime import date
-from typing import Iterable, List
 
 
 class HistorialRepo:
@@ -51,13 +50,13 @@ class HistorialRepo:
             },
         ]
 
-    def list_all(self) -> List[dict]:
+    def list_all(self) -> list[dict]:
         return list(self._data)
 
-    def query_by_date_range(self, desde: date, hasta: date) -> List[dict]:
+    def query_by_date_range(self, desde: date, hasta: date) -> list[dict]:
         return [t for t in self._data if desde <= t["fecha"] <= hasta]
 
-    def filter(self, desde: date, hasta: date, estado: str | None = None) -> List[dict]:
+    def filter(self, desde: date, hasta: date, estado: str | None = None) -> list[dict]:
         items = self.query_by_date_range(desde, hasta)
         if estado:
             items = [t for t in items if t.get("estado") == estado]

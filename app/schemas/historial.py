@@ -1,5 +1,5 @@
 from datetime import date, timedelta
-from typing import Literal, Optional
+from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
@@ -30,9 +30,7 @@ class HistorialQueryParams(BaseModel):
             "a la fecha inicial para evitar rangos ambiguos en la consulta."
         ),
     )
-    estado: Optional[
-        Literal["pending", "approved", "rejected", "refunded", "cancelled"]
-    ] = Field(
+    estado: Literal["pending", "approved", "rejected", "refunded", "cancelled"] | None = Field(
         default=None,
         description=(
             "Estado opcional del historial. Se usa Literal para reflejar el "
@@ -49,7 +47,7 @@ class HistorialQueryParams(BaseModel):
             "y latencia en consultas largas."
         ),
     )
-    cursor: Optional[str] = Field(
+    cursor: str | None = Field(
         default=None,
         description=(
             "Cursor opaco de paginación devuelto por la API. Se usa como "

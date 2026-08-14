@@ -15,6 +15,7 @@
 from typing import Annotated
 
 from pydantic import BaseModel, Field, StringConstraints
+
 # ✅ BUENO · usa Pydantic v2 (BaseModel + Annotated + StringConstraints)
 # 💡 CORRECCIÓN MENOR · si vas a usar datetime (recomendado),
 #    agregá `from datetime import datetime` al import.
@@ -74,7 +75,7 @@ class TransactionCreateRequest(BaseModel):
     # ⚠️ PROBLEMA MENOR · sin límite superior. Un `amount_cents = 999999999999`
     #    pasa la validación. ¿El PRD tiene un tope? · si sí, agregá `le=<tope>`.
     # 💡 CORRECCIÓN · si el PRD define un monto máximo por transacción:
-    #      Field(gt=0, le=100_000_000, description="...")  
+    #      Field(gt=0, le=100_000_000, description="...")
 
     created_at: Annotated[
         str,
@@ -197,7 +198,7 @@ class TransactionCreateRequest(BaseModel):
 # ============================================================================
 #
 # 🔴 CRÍTICOS (bloquean el uso en producción)
-#   1. Scope drift · endpoint POST /transactions no existe en el PRD · el 
+#   1. Scope drift · endpoint POST /transactions no existe en el PRD · el
 #       Lab 2  define GET /api/v1/transacciones
 #   2. `created_at` desde el cliente permite falsificar timestamps
 #   3. `status` desde el cliente permite crear transacciones ya aprobadas
@@ -214,7 +215,7 @@ class TransactionCreateRequest(BaseModel):
 #  9. Sin tope superior en `amount_cents`
 #
 # ============================================================================
-# CORRECCIÓN POR PROMPT 
+# CORRECCIÓN POR PROMPT
 # ============================================================================
 # #file:docs/prd/PRD.md
 # #file:docs/architecture/diagrams/sequence_historial.md

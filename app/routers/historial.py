@@ -1,25 +1,27 @@
+import os
+import secrets
 from typing import Any
 
-from fastapi import APIRouter, Request, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import JSONResponse
 from pydantic import ValidationError
 
-from app.schemas.historial import HistorialQueryParams
 from app.repositories.historial_repo import HistorialRepo
+from app.schemas.historial import HistorialQueryParams
 from app.services.historial_service import HistorialService
 
 router = APIRouter(prefix="/api/v1")
 
+TEST_TOKEN = os.getenv("TEST_TOKEN", "test-valid-jwt")  # valor por defecto solo para tests/local
 
 def _auth_header_valid(request: Request) -> bool:
     auth = request.headers.get("authorization")
     if not auth or not auth.startswith("Bearer "):
         return False
     token = auth.split(" ", 1)[1]
-    
-    # TODO auditoria: jwt no es una implementación real, es un placeholder para tests. Deuda técnica importante.
-    # Deterministic test token
-    return token == "test-valid-jwt"
+
+    # TODO: reemplazar por validación JWT real en producción
+    return secrets.compare_digest(token, TEST_TOKEN)
 
 
 @router.get("/transacciones")

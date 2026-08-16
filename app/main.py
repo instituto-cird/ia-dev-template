@@ -6,6 +6,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
+from app.routers.historial import router as historial_router
+
 # Carga variables de entorno desde .env (no falla si .env no existe)
 load_dotenv()
 
@@ -20,9 +22,9 @@ app = FastAPI(
 # El spec CORS prohíbe `allow_origins=["*"]` cuando `allow_credentials=True`.
 # Si necesitás agregar otro frontend, sumalo a esta lista o usá CORS_ORIGINS en .env.
 _default_origins = [
-    "http://localhost:8501",   # Streamlit frontend
-    "http://localhost:3000",   # React/Vite dev server (si lo usás)
-    "http://localhost:5173",   # Vite default
+    "http://localhost:8501",  # Streamlit frontend
+    "http://localhost:3000",  # React/Vite dev server (si lo usás)
+    "http://localhost:5173",  # Vite default
     "http://127.0.0.1:8501",
     "http://127.0.0.1:3000",
 ]
@@ -70,6 +72,8 @@ async def health_check() -> HealthResponse:
         module="System",
     )
 
+
+app.include_router(historial_router)
 
 # Aquí agregaremos más adelante los routers:
 # app.include_router(agent_router)

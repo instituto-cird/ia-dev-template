@@ -112,3 +112,22 @@ El endpoint delega la operación en SupportService y la suite completa permanece
 
 Justificación:
 Se aplicó el patrón Service Layer. La separación reduce el acoplamiento entre HTTP y la lógica de negocio y permite probar SupportService de forma independiente. Se mantuvo una arquitectura pequeña y proporcional al alcance del laboratorio, sin agregar capas innecesarias.
+## Evidencia U2.3 · Test generado por IA con falsa confianza
+
+Test defectuoso identificado:
+Se detectó un test que reemplazaba `SupportService.create_request()` por un lambda que devolvía directamente `"pending_review"` y luego verificaba ese mismo resultado.
+
+Problema:
+El test no ejecutaba la lógica real de `SupportService`. Por lo tanto, podía pasar aunque la implementación de `create_request()` estuviera rota. Esto producía falsa confianza.
+
+Verificación realizada:
+Se modificó deliberadamente el resultado del lambda a `"WRONG_BEHAVIOR"`. El test falló con una aserción que esperaba `"pending_review"`, demostrando que la prueba estaba verificando el mock y no el comportamiento real del servicio.
+
+Corrección:
+Se eliminó el reemplazo artificial del método y se construyó un `SupportRequest` real. El test ejecuta `SupportService.create_request(request)` y verifica `transaction_id`, `claimed_amount` y `status`.
+
+Evidencia:
+El test corregido pasó correctamente y la suite completa quedó en 44 tests passing.
+
+Conclusión:
+La prueba corregida aporta evidencia sobre el comportamiento real del servicio y no depende de configurar previamente el resultado que pretende verificar.

@@ -4,8 +4,9 @@ import os
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers.support import router as support_router
 from pydantic import BaseModel, Field
+
+from app.routers.support import router as support_router
 
 # Carga variables de entorno desde .env (no falla si .env no existe)
 load_dotenv()

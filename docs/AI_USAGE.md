@@ -108,7 +108,7 @@ Corrección humana:
 Se creó un Router responsable de la capa HTTP y un SupportService responsable de crear la solicitud de soporte y establecer su estado inicial.
 
 Evidencia:
-El endpoint delega la operación en SupportService y la suite completa permanece en verde: 43 passed.
+El endpoint delega la operación en SupportService y la suite completa permanece en verde: 44 passed.
 
 Justificación:
 Se aplicó el patrón Service Layer. La separación reduce el acoplamiento entre HTTP y la lógica de negocio y permite probar SupportService de forma independiente. Se mantuvo una arquitectura pequeña y proporcional al alcance del laboratorio, sin agregar capas innecesarias.

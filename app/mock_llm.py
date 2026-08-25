@@ -203,6 +203,42 @@ def _agent_response(user_msg: str) -> str:
     return json.dumps(payload, ensure_ascii=False)
 
 
+_PRD_STOPWORDS = {
+    "el", "la", "los", "las", "un", "una", "unos", "unas",
+    "de", "del", "al", "a", "en", "por", "para", "con", "sin", "sobre",
+    "que", "qué", "cual", "cuál", "cuales", "cuáles", "quien", "quién",
+    "cuanto", "cuánto", "cuando", "cuándo", "donde", "dónde", "como", "cómo",
+    "es", "son", "esta", "está", "estan", "están", "ser", "estar",
+    "mi", "tu", "su", "nuestro", "vuestro", "sus", "mis", "tus",
+    "y", "o", "pero", "si", "no", "ni", "porque", "aunque",
+    "me", "te", "se", "nos", "os", "le", "les", "lo",
+    "hay", "tiene", "tienen", "puede", "pueden", "debe", "deben",
+    "esto", "eso", "aquello", "esta", "ese", "aquel",
+    "muy", "mas", "más", "menos", "tan", "tanto",
+    "prd", "regla", "reglas", "sistema", "historial",  # términos meta demasiado genéricos
+}
+
+
+def _extract_keyword(user_msg: str) -> str:
+    """
+    Simula la extracción de un término clave que haría un LLM real.
+
+    Un LLM real leería la consulta natural y decidiría qué término buscar en el PRD.
+    El mock lo aproxima con una heurística: elimina stopwords y signos de puntuación,
+    y devuelve la palabra más larga restante. Si no encuentra ninguna, devuelve la
+    consulta truncada a 20 chars.
+    """
+    clean = re.sub(r"[¿?¡!.,;:()\"']", " ", user_msg.lower())
+    candidatos = [
+        palabra
+        for palabra in clean.split()
+        if palabra not in _PRD_STOPWORDS and len(palabra) > 2
+    ]
+    if not candidatos:
+        return user_msg.strip()[:20]
+    return max(candidatos, key=len)
+
+
 def _prd_agent_response(last_msg: str) -> str:
     """Devuelve una decisión reproducible para el agente RAG local."""
     if last_msg.startswith("Observation:"):
@@ -218,7 +254,7 @@ def _prd_agent_response(last_msg: str) -> str:
         {
             "thought": "Necesito evidencia del PRD para responder.",
             "action": "buscar_regla_prd",
-            "action_input": {"termino": last_msg},
+            "action_input": {"termino": _extract_keyword(last_msg)},
         },
         ensure_ascii=False,
     )

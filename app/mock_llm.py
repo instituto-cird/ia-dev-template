@@ -121,6 +121,16 @@ def _is_agent_call(messages: list[Message]) -> bool:
     return False
 
 
+def _is_prd_agent_call(messages: list[Message]) -> bool:
+    """Detecta el contrato del agente RAG del historial de transacciones."""
+    return any(
+        msg.role == "system"
+        and msg.content
+        and "buscar_regla_prd" in msg.content
+        for msg in messages
+    )
+
+
 # ─── Modo Agente: JSON ReAct ──────────────────────────────────────────────────
 
 
@@ -193,6 +203,27 @@ def _agent_response(user_msg: str) -> str:
     return json.dumps(payload, ensure_ascii=False)
 
 
+def _prd_agent_response(last_msg: str) -> str:
+    """Devuelve una decisión reproducible para el agente RAG local."""
+    if last_msg.startswith("Observation:"):
+        return json.dumps(
+            {
+                "thought": "Ya tengo evidencia recuperada del PRD.",
+                "action": "final",
+                "action_input": {"respuesta": last_msg.removeprefix("Observation: ").strip()},
+            },
+            ensure_ascii=False,
+        )
+    return json.dumps(
+        {
+            "thought": "Necesito evidencia del PRD para responder.",
+            "action": "buscar_regla_prd",
+            "action_input": {"termino": last_msg},
+        },
+        ensure_ascii=False,
+    )
+
+
 # ─── Modo Conversacional: texto natural ──────────────────────────────────────
 
 
@@ -237,7 +268,9 @@ async def chat_completions(request: ChatCompletionRequest) -> ChatCompletionResp
         last_msg = request.messages[-1].content or ""
 
     # Decide el modo de respuesta
-    if _is_agent_call(request.messages):
+    if _is_prd_agent_call(request.messages):
+        content = _prd_agent_response(last_msg)
+    elif _is_agent_call(request.messages):
         content = _agent_response(last_msg)
     else:
         content = _conversational_response(last_msg)

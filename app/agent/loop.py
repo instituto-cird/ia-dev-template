@@ -10,10 +10,12 @@ from app.agent.logger import log_step
 from app.agent.tools import TOOLS_SCHEMA, buscar_regla_prd
 
 
-# Baranda de presupuesto: impide loops infinitos si el LLM no decide finalizar.
+# Baranda de presupuesto: impide loops infinitos si el 
 MAX_STEPS = 5
 DEFAULT_MODEL = os.getenv("LLM_MODEL", "gpt-4o-mini")
+
 # El prompt fija alcance, seguridad y el JSON que el loop puede interpretar.
+# Baranda #1 · SCOPE · en el SYSTEM_PROMPT 
 SYSTEM_PROMPT = (
     "Sos un agente RAG sobre el PRD de Historial de Transacciones LegacyPay. "
     "Solo respondés sobre el PRD; si te preguntan otra cosa decís 'fuera de alcance'. "

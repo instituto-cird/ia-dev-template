@@ -9,14 +9,12 @@ dependencies = [
   "pydantic>=2.8,<2.10",
   "httpx>=0.26.0",
   "python-dotenv>=1.0.0",
+  "openai>=2.17.0,<3"
 ]
 
 [project.optional-dependencies]
 ui = [
   "streamlit>=1.31.0",
-]
-llm = [
-  "openai>=2.17.0,<3",
 ]
 
 [dependency-groups]
@@ -54,6 +52,14 @@ warn_unused_configs = true
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+filterwarnings = [
+  # Silenciamos el aviso de Starlette sobre httpx→httpx2 (cosmético, no bloqueante).
+  # Se emite desde fastapi.testclient al importar. Filtramos por MENSAJE + por MÓDULO
+  # para cubrir StarletteDeprecationWarning (subclase custom) y el emisor fastapi.
+  "ignore:.*httpx.*starlette.*deprecated.*",
+  "ignore:.*httpx2.*",
+  "ignore::DeprecationWarning:fastapi.*",
+]
 
 [tool.coverage.run]
 source = ["app"]

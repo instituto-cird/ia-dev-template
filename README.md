@@ -44,3 +44,6 @@ uv run --frozen python evals/eval_agent.py
 -	[x] Cada corrida genera log auditable en `logs/agent_run.jsonl`.
 -	[x] Agente se abstiene ante preguntas fuera de alcance.
 -	[x] CI verde en GitHub Actions.
+## Limitaciones conocidas
+-	Retriever lexical sin embeddings · falla ante sinónimos.
+-	El mock LLM es determinístico · no cubre 100% de respuestas de un LLM real.

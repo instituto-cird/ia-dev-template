@@ -34,7 +34,7 @@ async def get_transacciones(request: Request) -> Any:
     # errors into 400 as requested by the PRD/tests.
     params = dict(request.query_params)
     try:
-        qp = HistorialQueryParams(**params)
+        qp = HistorialQueryParams.model_validate(params)
     except ValidationError as e:  # pydantic validation errors
         # If the error message matches the PRD range message, return 400
         for err in e.errors():

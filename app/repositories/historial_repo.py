@@ -1,18 +1,20 @@
 from __future__ import annotations
 
 from datetime import date
+from typing import TypedDict
+
+
+class TransactionRow(TypedDict):
+    id: str
+    fecha: date
+    pan: str
+    monto: int
+    estado: str
 
 
 class HistorialRepo:
-    """Repositorio en memoria con transacciones fijas y determinísticas.
-
-    Cada transacción es un dict sencillo con campos mínimos que usa el
-    servicio: `id`, `fecha` (date), `pan`, `monto`, `estado`.
-    """
-
     def __init__(self) -> None:
-        # Fixed sample data (5 transactions)
-        self._data = [
+        self._data: list[TransactionRow] = [
             {
                 "id": "tx1",
                 "fecha": date(2026, 5, 12),
@@ -50,16 +52,20 @@ class HistorialRepo:
             },
         ]
 
-    def list_all(self) -> list[dict]:
+    def list_all(self) -> list[TransactionRow]:
         return list(self._data)
 
-    def query_by_date_range(self, desde: date, hasta: date) -> list[dict]:
+    def query_by_date_range(self, desde: date, hasta: date) -> list[TransactionRow]:
         return [t for t in self._data if desde <= t["fecha"] <= hasta]
 
-    def filter(self, desde: date, hasta: date, estado: str | None = None) -> list[dict]:
+    def filter(
+        self,
+        desde: date,
+        hasta: date,
+        estado: str | None = None,
+    ) -> list[TransactionRow]:
         items = self.query_by_date_range(desde, hasta)
         if estado:
-            items = [t for t in items if t.get("estado") == estado]
-        # Sort by fecha ascending to make pagination deterministic
+            items = [t for t in items if t["estado"] == estado]
         items.sort(key=lambda t: t["fecha"])
         return items

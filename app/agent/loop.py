@@ -11,9 +11,11 @@ from app.agent.tools import TOOLS_SCHEMA, buscar_regla_prd
 
 
 # Baranda de presupuesto: impide loops infinitos si el LLM no decide finalizar.
+# baranda1: cantidad de limitis de pasos del agente
 MAX_STEPS = 5
 DEFAULT_MODEL = os.getenv("LLM_MODEL", "gpt-4o-mini")
 # El prompt fija alcance, seguridad y el JSON que el loop puede interpretar.
+#baranda2: prompt del sistema para el agente, se delimita a responder solo sobre el PRD y a no inventar resultados.
 SYSTEM_PROMPT = (
     "Sos un agente RAG sobre el PRD de Historial de Transacciones LegacyPay. "
     "Solo respondés sobre el PRD; si te preguntan otra cosa decís 'fuera de alcance'. "
@@ -47,7 +49,7 @@ def _parse_decision(content: str) -> tuple[str, dict[str, Any]]:
 def run_agent(consulta: str, llm_client: Any) -> str:
     """Ejecuta el loop ReAct y devuelve la respuesta final o un error."""
     messages: list[dict[str, str]] = [
-        {"role": "system", "content": SYSTEM_PROMPT},
+        {"role": "system", "content": SYSTEM_PROMPT},     
         {"role": "user", "content": consulta},
     ]
 

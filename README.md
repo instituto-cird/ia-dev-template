@@ -1,4 +1,4 @@
-# Proyecto Final · [Tu Nombre]
+# Proyecto Final · Linda Riquelme
 Agente RAG que responde preguntas sobre el PRD "Historial de Transacciones LegacyPay". Basado en el patrón ReAct con retriever lexical sobre `docs/prd/PRD.md`.
 
 ## Cómo probarlo en 5 minutos
@@ -29,3 +29,18 @@ print(run_agent('¿cuál es el rango máximo del historial?', client))"
 ```bash
 uv run --frozen python evals/eval_agent.py
 ```
+
+## Arquitectura del agente
+-	Tools: `buscar_regla_prd` (registrada en `app/agent/tools.py`).
+-	Loop: patrón ReAct con `MAX_STEPS = 5`.
+-	RAG: retriever lexical sobre `docs/prd/PRD.md`.
+-	Log auditable: cada paso serializado en `logs/agent_run.jsonl`.
+
+## Barandas aplicadas
+1.	Scope explícito en `SYSTEM_PROMPT` (`app/agent/loop.py`).
+2.	Budget con `MAX_STEPS = 5` (`app/agent/loop.py`).
+## Criterios de aceptación
+-	[x] Al menos 2/3 casos del Eval Set pasan.
+-	[x] Cada corrida genera log auditable en `logs/agent_run.jsonl`.
+-	[x] Agente se abstiene ante preguntas fuera de alcance.
+-	[x] CI verde en GitHub Actions.

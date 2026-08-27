@@ -3,13 +3,15 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+from openai import OpenAI
+
+from app.agent.loop import run_agent
+
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from openai import OpenAI
 
-from app.agent.loop import run_agent
 
 CASES: list[dict[str, str]] = [
     {

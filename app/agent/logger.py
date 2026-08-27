@@ -1,10 +1,9 @@
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
-
 
 LOG_PATH = Path(__file__).resolve().parents[2] / "logs" / "agent_run.jsonl"
 
@@ -13,7 +12,7 @@ def log_step(step: int, tool: str, args: dict[str, Any], result: str) -> None:
     """Agrega un paso de herramienta al log JSONL del agente."""
     LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
     entry = {
-        "ts": datetime.now(timezone.utc).isoformat(),
+        "ts": datetime.now(UTC).isoformat(),
         "step": step,
         "tool": tool,
         "args": args,

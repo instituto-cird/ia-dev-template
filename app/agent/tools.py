@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from pathlib import Path
 
-
 PRD_PATH = Path(__file__).resolve().parents[2] / "docs" / "prd" / "PRD.md"
 
 TOOLS_SCHEMA = [

@@ -9,8 +9,6 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from app.agent.loop import run_agent
-
 
 CASES = [
     {
@@ -32,6 +30,7 @@ CASES = [
 
 
 def evaluate_case(case: dict[str, str]) -> bool:
+    from app.agent.loop import run_agent
     client = OpenAI(
         base_url="http://localhost:8001/v1",
         api_key="sk-mock-key-123",

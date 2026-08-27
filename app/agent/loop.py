@@ -11,8 +11,8 @@ from app.agent.tools import TOOLS_SCHEMA, buscar_regla_prd
 MAX_STEPS = 5
 DEFAULT_MODEL = os.getenv("LLM_MODEL", "gpt-4o-mini")
 
-# baranda 2: prompt del sistema para el agente, se delimita que solo responda sobre el PRD 
-# y que no ejecute acciones destructivas ni invente resultados. 
+# baranda 2: prompt del sistema para el agente, se delimita que solo responda sobre el PRD
+# y que no ejecute acciones destructivas ni invente resultados.
 SYSTEM_PROMPT = (
     "Sos un agente RAG para el Historial de Transacciones de LegacyPay. "
     "Solo respondés sobre el PRD; si te preguntan otra cosa decís "

@@ -11,7 +11,6 @@ from openai import OpenAI
 
 from app.agent.loop import run_agent
 
-
 CASES: list[dict[str, str]] = [
     {
         "id": "rango-90-dias",

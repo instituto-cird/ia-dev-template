@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from pathlib import Path
 
-
 # Resolver desde este archivo permite ejecutar el agente desde cualquier directorio.
 PRD_PATH = Path(__file__).resolve().parents[2] / "docs" / "prd" / "PRD.md"
 

@@ -7,7 +7,6 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-
 # El log queda en la raíz del proyecto, fuera del paquete de código.
 LOG_PATH = Path(__file__).resolve().parents[2] / "logs" / "agent_run.jsonl"
 

@@ -89,4 +89,46 @@ FORMATO
 1. Bloque Mermaid.
 2. Lista breve de supuestos.
 3. Preguntas abiertas.
+
+---
+
+### Entrada 003 - SD: Sequence Diagram 
+
+| Campo | Detalle |
+|-------|---------|
+| **Fecha** | 2026-08-30 |
+| **Objetivo** | Crear un Diagrama de Secuencia  |
+| **Herramienta y modelo** | Visual Studio Code con Copilot |
+| **Contexto proporcionado** | Al final de la tabla |
+| **Salida obtenida** | Se creo un documento en sequence_historial.md en docs/architecture/diagrams |
+| **Problema detectado** | Ningun problema detectado que amerite una correccion en el prompt|
+| **Cambio realizado por mí** | Ninguna |
+| **Criterio o evidencia utilizada** | puntos claves en la auditoria se tuvieron en cuenta  |
+| **Observaciones** | 
+- La validación de identidad y comercio se realiza en el componente de autorización/validación.
+- Los filtros se validan antes de consultar el repositorio, con la restricción de 90 días.
+- La consulta es paginada y conserva la misma lógica en páginas subsiguientes.
+- La respuesta correcta entrega solo campos permitidos, sin tarjeta completa ni datos de autenticación.
+- El flujo alternativo cubre error por comercio no autorizado y error por filtros inválidos. |
+---
+>PROMPT UTILIZADO
+
+Basado en la primera historia de usuario y sus criterios de aceptación del PRD.md, generá un diagrama de secuencia Mermaid para consultar el historial de transacciones.
+
+Incluí solamente participantes justificados por el diseño. Como mínimo deben aparecer:
+- Comercio o usuario autorizado;
+- API;
+- componente responsable de autorización o validación;
+- servicio o caso de uso;
+- repositorio o base de datos.
+
+Representá:
+- validación de identidad y comercio;
+- validación de filtros;
+- consulta paginada;
+- respuesta correcta;
+- al menos un flujo alternativo de error.
+
+No inventes servicios externos.
+
 ---

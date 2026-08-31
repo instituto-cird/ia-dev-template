@@ -132,3 +132,46 @@ Representá:
 No inventes servicios externos.
 
 ---
+
+### Entrada 004 - ADR - PAGINATION
+
+| Campo | Detalle |
+|-------|---------|
+| **Fecha** | 2026-08-30 |
+| **Objetivo** | Crear un ADR para paginacion  |
+| **Herramienta y modelo** | Visual Studio Code con Copilot |
+| **Contexto proporcionado** | Al final de la tabla |
+| **Salida obtenida** | Se creo un documento adr-0001-paginacion.md en docs/decisions |
+| **Problema detectado** | Ningun problema detectado en el prompt generado |
+| **Cambio realizado por mí** | Ninguna |
+| **Criterio o evidencia utilizada** | se evaluara utilizar Paginación por cursor segun la necesidad futura |
+| **Condición de revisión** | 
+    Este ADR debe revisarse si:
+- el volumen de transacciones por comercio aumenta significativamente por encima del patrón observado;
+- la paginación por offset impacta de manera relevante la latencia o la carga de consultas;
+- se detecta una necesidad de auditoría más estricta que exija un ordenamiento o una trazabilidad más robusta;
+- el producto define un límite de página o un comportamiento de navegación que haga necesario cambiar la estrategia.
+
+En ese caso, se evaluará una transición hacia paginación por cursor, siempre con evidencia concreta y sin cambiar la intención del requisito funcional base. |
+---
+>PROMPT UTILIZADO
+
+Prepará un borrador de ADR para decidir la estrategia de paginación del endpoint de historial de transacciones de LegacyPay.
+
+CONTEXTO
+- La consulta puede crecer mucho por comercio.
+- El endpoint debe ser auditable.
+- La consulta debe ser paginada.
+- No inventes benchmarks ni SLA no aprobados.
+
+CRITERIOS
+- rendimiento bajo crecimiento de datos;
+- facilidad de implementación;
+- experiencia de usuario;
+- costo de cambio;
+- evidencia pendiente.
+
+FORMATO
+Markdown con: Contexto, Alternativas, Decisión propuesta, Consecuencias positivas, Consecuencias negativas, Evidencia pendiente y Condición de revisión.
+
+---

@@ -17,7 +17,6 @@ from openai import OpenAI
 
 from app.agent.loop import run_agent
 
-
 # Configurar cliente OpenAI apuntando al Mock LLM
 _llm_client = OpenAI(
     base_url="http://localhost:8001/v1",
@@ -76,7 +75,7 @@ def run_eval() -> None:
                 print(f"  ❌ FALLÓ - Respuesta NO contiene: '{expected_text}'")
                 print(f"     Respuesta obtenida: {respuesta[:100]}...")
 
-        except Exception as error:
+        except Exception as error: # noqa: BLE001
             print(f"  ❌ ERROR - {type(error).__name__}: {error}")
             results.append((case_id, False))
 

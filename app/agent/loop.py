@@ -9,7 +9,6 @@ from typing import Any
 from app.agent.logger import log_step
 from app.agent.tools import TOOLS_SCHEMA, buscar_regla_prd
 
-
 # Baranda de presupuesto: impide loops infinitos si el LLM no decide finalizar.
 # baranda1: cantidad de limitis de pasos del agente
 MAX_STEPS = 5
@@ -49,7 +48,7 @@ def _parse_decision(content: str) -> tuple[str, dict[str, Any]]:
 def run_agent(consulta: str, llm_client: Any) -> str:
     """Ejecuta el loop ReAct y devuelve la respuesta final o un error."""
     messages: list[dict[str, str]] = [
-        {"role": "system", "content": SYSTEM_PROMPT},     
+        {"role": "system", "content": SYSTEM_PROMPT},
         {"role": "user", "content": consulta},
     ]
 

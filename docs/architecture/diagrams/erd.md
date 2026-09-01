@@ -13,12 +13,12 @@ erDiagram
         string merchant_id FK
         number amount_usd
         string status
-        string created_at? "propuesta"
+        string created_at
     }
 
     MERCHANT {
         string merchant_id PK
-        string status?
+        string status
     }
 
     MERCHANT ||--o{ TRANSACTION : "tiene"
